@@ -1,10 +1,23 @@
 <template>
   <div class="search_container">
-    <!-- 面包屑导航区域 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item>首页</el-breadcrumb-item>
-<!--      <el-breadcrumb-item>图书查询</el-breadcrumb-item>-->
-    </el-breadcrumb>
+    <div class="breadcrumb-search-container">
+      <!-- 面包屑导航区域 -->
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <!-- <el-breadcrumb-item>图书查询</el-breadcrumb-item> -->
+      </el-breadcrumb>
+
+      <!-- 搜索框区域 -->
+      <div class="search-box">
+        <el-input
+            v-model="searchQuery"
+            placeholder="搜索..."
+            prefix-icon="el-icon-search"
+            clearable
+        >
+        </el-input>
+      </div>
+    </div>
     <el-card shadow="always">
       <!-- 搜索内容和导出区域 -->
       <el-row>
@@ -162,6 +175,12 @@ export default {
     this.searchMessageByPage();
   },
   methods: {
+    handleFocus(event) {
+      event.target.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
+    },
+    handleBlur(event) {
+      event.target.style.boxShadow = 'none';
+    },
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
 
@@ -211,4 +230,32 @@ export default {
 };
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+.breadcrumb-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -17px; /* 根据需要调整 */
+}
+
+.breadcrumb-search-container .search-box {
+  flex: 0 0 25%;
+  position: relative;
+}
+
+.el-input {
+  transition: box-shadow 0.3s ease;
+}
+
+.el-input__inner {
+  border-radius: 25px; /* 圆角边框 */
+  border: 1px solid #ccc;
+  padding: 5px 15px;
+}
+
+.el-input__inner:focus {
+  border-color: #409EFF; /* 边框颜色 */
+  box-shadow: 0 0 5px rgba(64, 158, 255, 0.5); /* 聚焦时的阴影效果 */
+}
+
+</style>

@@ -36,7 +36,7 @@
       </el-row>
       <!-- 表格区域 -->
       <el-table
-          :data="tableData"
+          :data="conferences"
           height="520"
           border
           style="width: 100%; font-size: 14px"
@@ -48,22 +48,26 @@
           :default-sort="{ prop: 'message_date', order: 'ascending' }"
           stripe
       >
-        <el-table-column
-            prop="message_number"
-            label="#"
-            sortable
-        ></el-table-column>
-        <el-table-column prop="message_date" label="消息日期"></el-table-column>
-        <el-table-column prop="message_category" label="消息类型"></el-table-column>
-        <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
-        <el-table-column prop="detail" label="内容"></el-table-column>
-        <!-- 添加自定义列 -->
-        <el-table-column label="详细信息">
-          <template #default="scope">
-            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>
-          </template>
-        </el-table-column>
+<!--        <el-table-column-->
+<!--            prop="message_number"-->
+<!--            label="#"-->
+<!--            sortable-->
+<!--        ></el-table-column>-->
+        <el-table-column prop="id" label="ID" width="50"></el-table-column>
+        <el-table-column prop="name" label="Name"></el-table-column>
+        <el-table-column prop="abbreviation" label="Abbreviation"></el-table-column>
+        <el-table-column prop="ccf" label="CCF"></el-table-column>
+        <el-table-column prop="core" label="Core"></el-table-column>
+        <el-table-column prop="qualis" label="Qualis"></el-table-column>
+        <el-table-column prop="deadline" label="Deadline"></el-table-column>
+        <el-table-column prop="notification" label="Notification"></el-table-column>
+        <el-table-column prop="meeting" label="Meeting"></el-table-column>
+        <el-table-column prop="address" label="Address"></el-table-column>
+        <el-table-column prop="session" label="Session"></el-table-column>
+        <el-table-column prop="viewCount" label="View Count"></el-table-column>
+        <el-table-column prop="focusCount" label="Focus Count"></el-table-column>
       </el-table>
+
       <!-- 分页查询区域 -->
       <el-pagination
           @size-change="handleSizeChange"
@@ -80,27 +84,20 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "message_number",
-          label: "信息编号",
-        },
-        {
-          value: "message_date",
-          label: "消息日期",
-        },
-        {
-          value: "message_category",
-          label: "消息类型",
-        },
-        {
-          value: "detail",
-          label: "内容",
-        },
-      ],
+      conferences:[],
+      conferences_view: [],
+      conferences_focus: [],
+      conferences_attend: [],
+      jornals_view: [],
+      jornals_focus: [],
+
+
+
       tableData: [],
       queryInfo: {
         pageNum: 1,
@@ -110,20 +107,46 @@ export default {
       },
       total: 0,
 
-      title: "消息查询表格",
-      json_fields: {
-        信息编号: "message_number",
-        消息日期: "message_date",
-        消息类型: "message_category",
-        内容: "detail",
-      },
+
       loading: true,
     };
   },
   created() {
-    this.searchMessageByPage();
+    this.coferencebyfocus();
+    this.coferencebyview();
+    this.coferencebyattend();
   },
   methods: {
+    async coferencebyfocus()
+    {
+      const {data:data} = await axios.get("/api/conference/conferenceRankedByFocus");
+      this.conferences_focus=data.data;
+      this.conferences=data.data;
+      this.loading=false;
+      console.log(data.data);
+
+    },
+    async coferencebyattend()
+    {
+      const {data:data} = await axios.get("/api/conference/conferenceRankedByAttend");
+      this. conferences_attend=data.data;
+      this.loading=false;
+      console.log(data.data);
+
+    },
+    async coferencebyview()
+    {
+      const {data:data} = await axios.get("/api/conference/conferenceRankedByViewCount");
+      this. conferences_view=data.data;
+      this.loading=false;
+      console.log(data.data);
+
+    },
+
+
+
+
+
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
 
@@ -132,28 +155,28 @@ export default {
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val;
 
-      this.searchMessageByPage();
+      // this.searchMessageByPage();
     },
-    async searchMessageByPage() {
-      this.loading = true;
-      const { data: res } = await this.$http.post(
-          "user/search_message_page",
-          this.queryInfo
-      );
-      this.tableData = [];
-      if (res.status !== 200) {
-        this.total = 0;
-        this.loading = false;
-        return this.$message.error(res.msg);
-      }
-      this.$message.success({
-        message: res.msg,
-        duration: 1000,
-      });
-      this.loading = false;
-      this.tableData = res.data.records;
-      this.total = parseInt(res.data.total);
-    },
+    // async searchMessageByPage() {
+    //   this.loading = true;
+    //   const { data: res } = await this.$http.post(
+    //       "user/search_message_page",
+    //       this.queryInfo
+    //   );
+    //   this.tableData = [];
+    //   if (res.status !== 200) {
+    //     this.total = 0;
+    //     this.loading = false;
+    //     return this.$message.error(res.msg);
+    //   }
+    //   this.$message.success({
+    //     message: res.msg,
+    //     duration: 1000,
+    //   });
+    //   this.loading = false;
+    //   this.tableData = res.data.records;
+    //   this.total = parseInt(res.data.total);
+    // },
     downLoad() {
       this.getPdf(this.title); //参数是下载的pdf文件名
     },

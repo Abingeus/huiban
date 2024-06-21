@@ -51,12 +51,15 @@
           <el-row :gutter="20" style="margin-top: 20px;"> <!-- 创建一个带有20像素间距的行容器 -->
             <!-- 第一个表格 -->
             <el-col :span="8"> <!-- 每列占据24栅格中的8个栅格 -->
-              <el-card>
+              <el-card class="fixed-height-card">
                 <h3>最多浏览</h3>
-                <el-table :data="mostViewed">
-                  <el-table-column prop="rank" label="#" width="50"></el-table-column>
-                  <el-table-column prop="conference" label="会议"></el-table-column>
-                  <el-table-column prop="views" label="浏览"></el-table-column>
+                <el-table :data="conferences_view" style="flex-grow: 1;"v-loading="loading"
+                          element-loading-text="拼命加载中"
+                          element-loading-spinner="el-icon-loading"
+                          element-loading-background="rgba(0, 0, 0, 0.8)">
+                  <el-table-column prop="id" label="#" width="50"></el-table-column>
+                  <el-table-column prop="name" label="会议"></el-table-column>
+                  <el-table-column prop="viewCount" label="浏览"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -70,12 +73,15 @@
 
             <!-- 第二个表格 -->
             <el-col :span="8"> <!-- 每列占据24栅格中的8个栅格 -->
-              <el-card>
+              <el-card class="fixed-height-card">
                 <h3>最多关注</h3>
-                <el-table :data="mostFollowed">
-                  <el-table-column prop="rank" label="#" width="50"></el-table-column>
-                  <el-table-column prop="conference" label="会议"></el-table-column>
-                  <el-table-column prop="followers" label="关注"></el-table-column>
+                <el-table :data="conferences_focus" style="flex-grow: 1;"v-loading="loading"
+                          element-loading-text="拼命加载中"
+                          element-loading-spinner="el-icon-loading"
+                          element-loading-background="rgba(0, 0, 0, 0.8)">
+                  <el-table-column prop="id" label="#" width="50"></el-table-column>
+                  <el-table-column prop="name" label="会议"></el-table-column>
+                  <el-table-column prop="focusCount" label="关注"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -90,12 +96,15 @@
 
             <!-- 第三个表格 -->
             <el-col :span="8"> <!-- 每列占据24栅格中的8个栅格 -->
-              <el-card>
+              <el-card class="fixed-height-card">
                 <h3>最多参加</h3>
-                <el-table :data="mostParticipated">
-                  <el-table-column prop="rank" label="#" width="50"></el-table-column>
-                  <el-table-column prop="conference" label="会议"></el-table-column>
-                  <el-table-column prop="participants" label="参加"></el-table-column>
+                <el-table :data="conferences_attend" style="flex-grow: 1;"v-loading="loading"
+                          element-loading-text="拼命加载中"
+                          element-loading-spinner="el-icon-loading"
+                          element-loading-background="rgba(0, 0, 0, 0.8)">
+                  <el-table-column prop="id" label="#" width="50"></el-table-column>
+                  <el-table-column prop="name" label="会议"></el-table-column>
+                  <el-table-column prop="attendCount" label="参加"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -114,9 +123,12 @@
         <el-row :gutter="100" style="margin-top: 20px;"> <!-- 创建一个带有20像素间距的行容器 -->
           <!-- 第一个表格 -->
           <el-col :span="12"> <!-- 每列占据24栅格中的8个栅格 -->
-            <el-card>
+            <el-card class="fixed-height-card">
               <h3>最多浏览</h3>
-              <el-table :data="mostViewed">
+              <el-table :data="mostViewed" style="flex-grow: 1;"v-loading="loading"
+                        element-loading-text="拼命加载中"
+                        element-loading-spinner="el-icon-loading"
+                        element-loading-background="rgba(0, 0, 0, 0.8)">
                 <el-table-column prop="rank" label="#" width="50"></el-table-column>
                 <el-table-column prop="journals" label="期刊"></el-table-column>
                 <el-table-column prop="views" label="浏览"></el-table-column>
@@ -134,7 +146,10 @@
 
           <!-- 第二个表格 -->
           <el-col :span="12"> <!-- 每列占据24栅格中的8个栅格 -->
-            <el-card>
+            <el-card class="fixed-height-card" style="flex-grow: 1;"v-loading="loading"
+                     element-loading-text="拼命加载中"
+                     element-loading-spinner="el-icon-loading"
+                     element-loading-background="rgba(0, 0, 0, 0.8)">
               <h3>最多关注</h3>
               <el-table :data="mostFollowed">
                 <el-table-column prop="rank" label="#" width="50"></el-table-column>
@@ -171,39 +186,17 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "book_number",
-          label: "图书编号",
-        },
-        {
-          value: "borrow_date",
-          label: "借阅日期",
-        },
-        {
-          value: "close_date",
-          label: "截止日期",
-        },
-        {
-          value: "return_date",
-          label: "归还日期",
-        },
-      ],
-      tableData: [
-        {
-          cardNumber: Number,
-          bookNumber: Number,
-          borrowId: Number,
-          borrowDate: "",
-          closeDate: "",
-          returnDate: "",
-          createTime: "",
-          updateTime: "",
-        },
-      ],
+
+      conferences_view: [],
+      conferences_focus: [],
+      conferences_attend: [],
+      jornals_view: [],
+      jornals_focus: [],
       queryInfo: {
         pageNum: 1,
         pageSize: 5,
@@ -223,7 +216,45 @@ export default {
       loading: true,
     };
   },
-  methods: {
+  created() {
+    this.coferencebyfocus();
+    this.coferencebyview();
+    this.coferencebyattend();
+  },
+  downLoad() {
+    this.getPdf(this.title); //参数是下载的pdf文件名
+  },
+
+
+
+    methods: {
+
+
+      async coferencebyfocus()
+      {
+        const {data:data} = await axios.get("/api/conference/conferenceRankedByFocus");
+        this.conferences_focus=data.data;
+        this.conferences=data.data;
+        this.loading=false;
+        console.log(data.data);
+
+      },
+      async coferencebyattend()
+      {
+        const {data:data} = await axios.get("/api/conference/conferenceRankedByAttend");
+        this. conferences_attend=data.data;
+        this.loading=false;
+        console.log(data.data);
+
+      },
+      async coferencebyview()
+      {
+        const {data:data} = await axios.get("/api/conference/conferenceRankedByViewCount");
+        this. conferences_view=data.data;
+        this.loading=false;
+        console.log(data.data);
+
+      },
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
 
@@ -271,14 +302,19 @@ export default {
         document.exitFullscreen();
     }
     }
-  },
-  created() {
-    this.searchBookBorrowByPage();
-  },
-};
+  }
+  }
+
+
 </script>
 
 <style>
+.fixed-height-card {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .card-title {
   text-align: center;
   font-size: 15px;

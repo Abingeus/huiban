@@ -7,28 +7,16 @@
       <el-main>
         <div class="table-container">
           <el-row style="margin-bottom: 10px;">
-            <el-col :span="24">
-              <div>姓名1:{{ user.username }} </div>
+            <el-col :span="16">
+              <div>用户名: {{ user.username }} </div>
+              <div>昵称:{{user.nickname}}</div>
+              <div>电子邮件: {{user.email}}</div>
+              <div>科研机构: {{user.organization}}</div>
+              <div>注册时间: {{user.createTime}}</div>
+              <div>活跃度: {{user.userPic}} </div>
             </el-col>
-          </el-row>
-          <el-row style="margin-bottom: 10px;">
-            <el-col :span="24">
-              <div>电子邮件:</div>
-            </el-col>
-          </el-row>
-          <el-row style="margin-bottom: 10px;">
-            <el-col :span="24">
-              <div>科研机构:</div>
-            </el-col>
-          </el-row>
-          <el-row style="margin-bottom: 10px;">
-            <el-col :span="24">
-              <div>注册时间:</div>
-            </el-col>
-          </el-row>
-          <el-row style="margin-bottom: 10px;">
-            <el-col :span="24">
-              <div>活跃度: </div>
+            <el-col :span="8">
+              <el-button @click="edit_user()">修改用户信息</el-button>
             </el-col>
           </el-row>
 
@@ -122,6 +110,9 @@
 <script>
 
 
+import axios from "axios";
+import router from "@/router";
+
 export default {
   data() {
     return {
@@ -171,19 +162,35 @@ export default {
 //     const id = parseInt(stringId);
 //     this.user.userId = id;
     const {data:res_jo}=await this.$http.get("/api/user/focusJournalInfo");
-    const abc=await this.$http.get("/api/user/userInfo");
+
     console.log(res_jo);
+    this.getUserInformatonrmaton();
+    this.getfocusJournalInfo();
 
-    const { data: res } = await this.$http.get("/api/user/userInfo");
 
-    console.log(res);
-    console.log(abc);
 
-    this.user = res.data;
-    this.focusJournalInfo=res_jo;
   },
   async mounted() { },
   methods: {
+    async getUserInformatonrmaton() {
+      const {data:infomation} = await axios.get("/api/user/userInfo");
+      this.user=infomation.data;
+    },
+    async getfocusJournalInfo() {
+      const {data:infomation} = await axios.get("/api/user/focusJournalInfo");
+      this.focusJournalInfo = infomation.data;
+    },
+    edit_user()
+    {
+      this.$router.push(
+          {
+            path:"/top_menu/edituser_information",
+
+          }
+      );
+    },
+
+
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");

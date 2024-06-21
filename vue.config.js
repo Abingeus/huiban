@@ -16,11 +16,11 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
-    // host: '0.0.0.0',
-    // port: 8080,
-    // client: {
-    //   webSocketURL: 'ws://0.0.0.0/ws',
-    // },
+    host: '0.0.0.0',
+    port: 8081,
+    client: {
+      webSocketURL: 'ws://0.0.0.0/ws',
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:8080', // 后端服务器的地址

@@ -56,18 +56,18 @@
             <i class="iconfont icon-tushuqikan"></i>
             <span slot="title">榜单信息</span>
           </el-menu-item>
-          <el-menu-item index="violation" @click="saveNavState('violation')">
-            <i class="iconfont icon-weizhangchaxun"></i>
-            <span slot="title">违章信息</span>
-          </el-menu-item>
-          <el-menu-item index="comment" @click="saveNavState('comment')">
-            <i class="iconfont icon-liuyan"></i>
-            <span slot="title">读者留言</span>
-          </el-menu-item>
-          <el-menu-item index="intelligent" @click="saveNavState('intelligent')">
-            <i class="el-icon-monitor"></i>
-            <span slot="title">智能推荐</span>
-          </el-menu-item>
+<!--          <el-menu-item index="violation" @click="saveNavState('violation')">-->
+<!--            <i class="iconfont icon-weizhangchaxun"></i>-->
+<!--            <span slot="title">违章信息</span>-->
+<!--          </el-menu-item>-->
+<!--          <el-menu-item index="comment" @click="saveNavState('comment')">-->
+<!--            <i class="iconfont icon-liuyan"></i>-->
+<!--            <span slot="title">读者留言</span>-->
+<!--          </el-menu-item>-->
+<!--          <el-menu-item index="intelligent" @click="saveNavState('intelligent')">-->
+<!--            <i class="el-icon-monitor"></i>-->
+<!--            <span slot="title">智能推荐</span>-->
+<!--          </el-menu-item>-->
 <!--          <el-menu-item index="chat" @click="saveNavState('chat')">-->
 <!--            <i class="el-icon-monitor"></i>-->
 <!--            <span slot="title">图书反馈</span>-->

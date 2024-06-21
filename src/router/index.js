@@ -117,13 +117,19 @@ const routes = [
           ]
       },
       {
-        path:"conference",
-        component:()=>import("@/components/User/Conference.vue"),
+        path:"conference_information",
+        name:"conference_information",
+        component:()=>import("@/components/Conference_information/Conference_information.vue"),
       },
 
       {
         path:"user_information",
         component:()=>import("@/components/User/user_information.vue"),
+
+      },
+      {
+        path:"edituser_information",
+        component:()=>import("@/components/User/Userupdateinfo.vue")
       },
       {
         path:"journals",
