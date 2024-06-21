@@ -1,0 +1,214 @@
+<template>
+  <div class="search_container">
+    <!-- 面包屑导航区域 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>首页</el-breadcrumb-item>
+<!--      <el-breadcrumb-item>图书查询</el-breadcrumb-item>-->
+    </el-breadcrumb>
+    <el-card shadow="always">
+      <!-- 搜索内容和导出区域 -->
+      <el-row>
+        <el-col :span="6"
+          >条件搜索:
+          <el-select
+            v-model="queryInfo.condition"
+            filterable
+            placeholder="请选择"
+            style="margin-left: 15px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-input
+            placeholder="请输入内容"
+            v-model="queryInfo.query"
+            class="input-with-select"
+            @keyup.enter.native="searchMessageByPage"
+          >
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="searchMessageByPage"
+            ></el-button>
+          </el-input>
+        </el-col>
+        <el-col :span="2" style="float: right">
+          <download-excel
+            class="export-excel-wrapper"
+            :data="tableData"
+            :fields="json_fields"
+            :header="title"
+            name="test.xls"
+          >
+            <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+            <el-button type="primary" class="el-icon-printer" size="mini"
+              >导出Excel
+            </el-button>
+          </download-excel>
+        </el-col>
+        <el-col :span="2" style="float: right">
+          <el-button
+            type="primary"
+            class="el-icon-printer"
+            size="mini"
+            @click="downLoad"
+            >导出PDF
+          </el-button>
+        </el-col>
+        <el-col :span="2" style="float: right">
+          <el-button
+            type="success"
+            class="el-icon-full-screen"
+            size="mini"
+            @click="fullScreen"
+            >全屏
+          </el-button>
+        </el-col>
+      </el-row>
+      <!-- 表格区域 -->
+      <el-table
+        :data="tableData"
+        height="520"
+        border
+        style="width: 100%; font-size: 14px"
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        id="pdfDom"
+        :default-sort="{ prop: 'message_date', order: 'ascending' }"
+        stripe
+      >
+        <el-table-column
+          prop="message_number"
+          label="#"
+          sortable
+        ></el-table-column>
+        <el-table-column prop="message_date" label="消息日期"></el-table-column>
+        <el-table-column prop="message_category" label="消息类型"></el-table-column>
+<!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
+        <el-table-column prop="detail" label="内容"></el-table-column>
+        <!-- 添加自定义列 -->
+        <el-table-column label="详细信息">
+          <template #default="scope">
+            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页查询区域 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="this.queryInfo.pageNum"
+        :page-sizes="[1, 2, 3, 4, 5]"
+        :page-size="this.queryInfo.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="this.total"
+      >
+      </el-pagination>
+    </el-card>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      options: [
+        {
+          value: "message_number",
+          label: "信息编号",
+        },
+        {
+          value: "message_date",
+          label: "消息日期",
+        },
+        {
+          value: "message_category",
+          label: "消息类型",
+        },
+        {
+          value: "detail",
+          label: "内容",
+        },
+      ],
+      tableData: [],
+      queryInfo: {
+        pageNum: 1,
+        pageSize: 5,
+        condition: "",
+        query: "",
+      },
+      total: 0,
+
+      title: "消息查询表格",
+      json_fields: {
+        信息编号: "message_number",
+        消息日期: "message_date",
+        消息类型: "message_category",
+        内容: "detail",
+      },
+      loading: true,
+    };
+  },
+  created() {
+    this.searchMessageByPage();
+  },
+  methods: {
+    handleSizeChange(val) {
+      this.queryInfo.pageSize = val;
+
+      this.searchMessageByPage();
+    },
+    handleCurrentChange(val) {
+      this.queryInfo.pageNum = val;
+
+      this.searchMessageByPage();
+    },
+    async searchMessageByPage() {
+      this.loading = true;
+      const { data: res } = await this.$http.post(
+        "user/search_message_page",
+        this.queryInfo
+      );
+      this.tableData = [];
+      if (res.status !== 200) {
+        this.total = 0;
+        this.loading = false;
+        return this.$message.error(res.msg);
+      }
+      this.$message.success({
+        message: res.msg,
+        duration: 1000,
+      });
+      this.loading = false;
+      this.tableData = res.data.records;
+      this.total = parseInt(res.data.total);
+    },
+    downLoad() {
+      this.getPdf(this.title); //参数是下载的pdf文件名
+    },
+    fullScreen() {
+      // Dom对象的一个属性: 可以用来判断当前是否为全屏模式(trueORfalse)
+      let full = document.fullscreenElement;
+      // 切换为全屏模式
+      if (!full) {
+        // 文档根节点的方法requestFullscreen实现全屏模式
+        document.documentElement.requestFullscreen();
+      } else {
+        // 退出全屏模式
+        document.exitFullscreen();
+      }
+    },
+  },
+};
+</script>
+
+<style lang="css"></style>
