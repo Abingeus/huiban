@@ -5,7 +5,7 @@
 <el-main>
     <el-row>
       <el-col :span="10"
-      >CCF: Journal Rank (A, B, C) from China Computer Federation (2022)
+      >CCF: Journal Rank (A, B, C) from China Computer Federation (2022).
       </el-col>
 
       <el-col :span="2" style="float: right">
@@ -18,10 +18,14 @@
         </el-button>
       </el-col>
     </el-row>
+  <el-col :span="10"
+  >征稿
+  </el-col>
+
     <!-- 页面主体区域 -->
   <!-- 表格区域 -->
   <el-table
-      :data="tableData"
+      :data="tableData1"
       height="520"
       border
       style="width: 100%; font-size: 14px"
@@ -38,15 +42,20 @@
         label="#"
         sortable
     ></el-table-column>
-    <el-table-column prop="CCF" label="CCF"></el-table-column>
-    <el-table-column prop="full_name" label="全称"></el-table-column>
-    <el-table-column prop="Special_Issue" label="Special Issue"></el-table-column>
-    <el-table-column prop="deadline_date" label="截稿日期"></el-table-column>
-    <el-table-column prop="impact_factor" label="影响因子"></el-table-column>
+    <el-table-column prop="ccf" label="CCF"></el-table-column>
+    <el-table-column label="全称">
+      <template v-slot="{ row }">
+        <router-link :to="{ name: 'conference_information', params: { name: row.name } }">
+          {{ row.name }}
+        </router-link>
+      </template>
+    </el-table-column>
+    <el-table-column prop="issue" label="Special Issue"></el-table-column>
+    <el-table-column prop="deadline" label="截稿日期"></el-table-column>
+    <el-table-column prop="ifactor" label="影响因子"></el-table-column>
     <el-table-column prop="publisher" label="出版商"></el-table-column>
-    <el-table-column prop="Browse" label="浏览"></el-table-column>
+    <!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
     <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
-
     <!-- 添加自定义列 -->
     <!--        <el-table-column label="详细信息">-->
     <!--          <template #default="scope">-->
@@ -69,8 +78,11 @@
 
 
   <!-- 表格区域 -->
+  <el-col :span="10"
+  >期刊
+  </el-col>
   <el-table
-      :data="tableData"
+      :data="tableData2"
       height="520"
       border
       style="width: 100%; font-size: 14px"
@@ -83,17 +95,17 @@
       stripe
   >
     <el-table-column
-        prop="message_number"
+        prop="id"
         label="#"
         sortable
     ></el-table-column>
-    <el-table-column prop="CCF" label="CCF"></el-table-column>
-    <el-table-column prop="Abbreviation" label="简称"></el-table-column>
-    <el-table-column prop="full_name" label="全称"></el-table-column>
-    <el-table-column prop="impact_factor" label="影响因子"></el-table-column>
+    <el-table-column prop="ccf" label="CCF"></el-table-column>
+    <el-table-column prop="abbreviation" label="简称"></el-table-column>
+    <el-table-column prop="name" label="全称"></el-table-column>
+    <el-table-column prop="ifactor" label="影响因子"></el-table-column>
     <el-table-column prop="publisher" label="出版商"></el-table-column>
-    <el-table-column prop="ISSN" label="ISSN"></el-table-column>
-    <el-table-column prop="Browse" label="浏览"></el-table-column>
+    <el-table-column prop="issn" label="ISSN"></el-table-column>
+    <el-table-column prop="viewCount" label="浏览"></el-table-column>
     <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
 
     <!-- 添加自定义列 -->
@@ -121,28 +133,13 @@
 
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "message_number",
-          label: "信息编号",
-        },
-        {
-          value: "message_date",
-          label: "消息日期",
-        },
-        {
-          value: "message_category",
-          label: "消息类型",
-        },
-        {
-          value: "detail",
-          label: "内容",
-        },
-      ],
-      tableData: [],
+      tableData1: [],
+      tableData2: [],
       queryInfo: {
         pageNum: 1,
         pageSize: 5,
@@ -151,18 +148,13 @@ export default {
       },
       total: 0,
 
-      title: "消息查询表格",
-      json_fields: {
-        信息编号: "message_number",
-        消息日期: "message_date",
-        消息类型: "message_category",
-        内容: "detail",
-      },
       loading: true,
     };
   },
   created() {
-    this.searchMessageByPage();
+    this.searchjournaling();
+    this.searchjournal_all();
+
   },
   methods: {
     handleSizeChange(val) {
@@ -175,25 +167,41 @@ export default {
 
       this.searchMessageByPage();
     },
-    async searchMessageByPage() {
+    async searchjournaling() {
       this.loading = true;
-      const { data: res } = await this.$http.post(
-          "user/search_message_page",
-          this.queryInfo
-      );
-      this.tableData = [];
-      if (res.status !== 200) {
-        this.total = 0;
-        this.loading = false;
-        return this.$message.error(res.msg);
-      }
-      this.$message.success({
-        message: res.msg,
-        duration: 1000,
-      });
+      const {data:res } = await axios.get("/api/journal/solicit");
+
+      this.tableData1 = [];
+      // if (res.status !== 200) {
+      //   this.total = 0;
+      //   this.loading = false;
+      //   return this.$message.error(res.msg);
+      // }
+      // this.$message.success({
+      //   message: res.msg,
+      //   duration: 1000,
+      // });
       this.loading = false;
-      this.tableData = res.data.records;
-      this.total = parseInt(res.data.total);
+      this.tableData1 = res.data;
+      // this.total = parseInt(res.data.total);
+    },
+    async searchjournal_all() {
+      this.loading = true;
+      const {data:res } = await axios.get("/api/journal/all");
+
+      this.tableData2 = [];
+      // if (res.status !== 200) {
+      //   this.total = 0;
+      //   this.loading = false;
+      //   return this.$message.error(res.msg);
+      // }
+      // this.$message.success({
+      //   message: res.msg,
+      //   duration: 1000,
+      // });
+      this.loading = false;
+      this.tableData2 = res.data;
+      // this.total = parseInt(res.data.total);
     },
     downLoad() {
       this.getPdf(this.title); //参数是下载的pdf文件名

@@ -21,8 +21,8 @@
           </el-row>
 
 
-
-          <el-table :data="conferences" border class="table-container">
+          <h2>关注的会议</h2>
+          <el-table :data="focusConference" border class="table-container">
             <el-table-column prop="ccf" label="CCF"></el-table-column>
             <el-table-column prop="core" label="CORE"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS"></el-table-column>
@@ -149,7 +149,22 @@ export default {
         publisher: "",
         viewCount: "",
         issn: "",
+      },
+      focusConference:{
+        id: Number,
+        ccf: "",
+        core:"",
+        qualis:"",
+        abbreviation: "",
+        name: "",
+        deadline:"",
+        notification:"",
+        meeting:"",
+        address:"",
+        seesion:"",
+        viewCount:"",
       }
+
     };
   },
   async created() {
@@ -166,6 +181,7 @@ export default {
     console.log(res_jo);
     this.getUserInformatonrmaton();
     this.getfocusJournalInfo();
+    this.getfocusConference();
 
 
 
@@ -179,6 +195,11 @@ export default {
     async getfocusJournalInfo() {
       const {data:infomation} = await axios.get("/api/user/focusJournalInfo");
       this.focusJournalInfo = infomation.data;
+      console.log(focusJournalInfo);
+    },
+    async getfocusConference() {
+      const {data:infomation} = await axios.get("/api/user/focusConferenceInfo");
+      this.focusConference = infomation.data;
     },
     edit_user()
     {

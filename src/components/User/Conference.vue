@@ -53,15 +53,31 @@
             label="#"
             sortable
         ></el-table-column>
-        <el-table-column prop="CCF" label="CCF"></el-table-column>
-        <el-table-column prop="CORE" label="CORE"></el-table-column>
-        <el-table-column prop="QUALIS" label="QUALIS"></el-table-column>
-        <el-table-column prop="Abbreviation" label="简称"></el-table-column>
-        <el-table-column prop="full_name" label="全称"></el-table-column>
-        <el-table-column prop="conference_date" label="会议日期"></el-table-column>
-        <el-table-column prop="conference_location" label="会议地点"></el-table-column>
-        <el-table-column prop="sessions" label="届数"></el-table-column>
-        <el-table-column prop="Browse" label="浏览"></el-table-column>
+        <el-table-column
+            prop="message_number"
+            label="#"
+            sortable
+        ></el-table-column>
+        <el-table-column prop="ccf" label="CCF"></el-table-column>
+        <el-table-column label="全称">
+          <template v-slot="{ row }">
+            <router-link :to="{ name: 'conference_information', params: { name: row.name } }">
+              {{ row.name }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="issue" label="Special Issue"></el-table-column>
+        <el-table-column prop="deadline" label="截稿日期"></el-table-column>
+        <el-table-column prop="ifactor" label="影响因子"></el-table-column>
+        <el-table-column prop="publisher" label="出版商"></el-table-column>
+        <!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
+        <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
+        <!-- 添加自定义列 -->
+        <!--        <el-table-column label="详细信息">-->
+        <!--          <template #default="scope">-->
+        <!--            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
       </el-table>
       <el-pagination
           @size-change="handleSizeChange"
@@ -112,6 +128,7 @@
           :total="this.total"
       >
       </el-pagination>
+
     <el-row> </el-row>
     </el-main>
 
@@ -125,28 +142,14 @@
 
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "message_number",
-          label: "信息编号",
-        },
-        {
-          value: "message_date",
-          label: "消息日期",
-        },
-        {
-          value: "message_category",
-          label: "消息类型",
-        },
-        {
-          value: "detail",
-          label: "内容",
-        },
-      ],
-      tableData: [],
+
+      tableData1: [],
+      tableData2: [],
       queryInfo: {
         pageNum: 1,
         pageSize: 5,
@@ -156,48 +159,40 @@ export default {
       total: 0,
 
       title: "消息查询表格",
-      json_fields: {
-        信息编号: "message_number",
-        消息日期: "message_date",
-        消息类型: "message_category",
-        内容: "detail",
-      },
       loading: true,
     };
   },
   created() {
-    this.searchMessageByPage();
+    this.searchjournaling();
   },
   methods: {
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
 
-      this.searchMessageByPage();
+      this.searchjournaling();
     },
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val;
 
-      this.searchMessageByPage();
+      this.searchjournaling();
     },
-    async searchMessageByPage() {
+    async searchjournaling() {
       this.loading = true;
-      const { data: res } = await this.$http.post(
-          "user/search_message_page",
-          this.queryInfo
-      );
-      this.tableData = [];
-      if (res.status !== 200) {
-        this.total = 0;
-        this.loading = false;
-        return this.$message.error(res.msg);
-      }
-      this.$message.success({
-        message: res.msg,
-        duration: 1000,
-      });
+      const {data:res } = await axios.get("/api/journal/solicit");
+
+      this.tableData1 = [];
+      // if (res.status !== 200) {
+      //   this.total = 0;
+      //   this.loading = false;
+      //   return this.$message.error(res.msg);
+      // }
+      // this.$message.success({
+      //   message: res.msg,
+      //   duration: 1000,
+      // });
       this.loading = false;
-      this.tableData = res.data.records;
-      this.total = parseInt(res.data.total);
+      this.tableData = res.data;
+      // this.total = parseInt(res.data.total);
     },
     downLoad() {
       this.getPdf(this.title); //参数是下载的pdf文件名
