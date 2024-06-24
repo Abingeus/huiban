@@ -113,16 +113,19 @@ export default {
         }
         this.RegisterLoading = true;
         // 进行md5加密
-        const salt = "xiaobaitiao";
-        const username = this.RegisterForm.username;
-        const password = this.RegisterForm.password;
+        const params = new URLSearchParams();
+        params.append("username",this.RegisterForm.username);
+        params.append("password",this.RegisterForm.password);
+        params.append("isAdmin","0");
+        // const username = this.RegisterForm.username;
+        // const password = this.RegisterForm.password;
+        //
+        // const encodedData = qs.stringify({
+        //   username: this.RegisterForm.username,
+        //   password: this.RegisterForm.password
+        // });
 
-        const encodedData = qs.stringify({
-          username: this.RegisterForm.username,
-          password: this.RegisterForm.password
-        });
-
-        const { data: res } = await axios.post('/user/register', encodedData, {
+        const { data: res } = await axios.post('/api/user/register', params.toString(), {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
@@ -152,7 +155,7 @@ export default {
           this.RegisterLoading = false;
           // window.sessionStorage.setItem("token", res.map.token);
           // window.sessionStorage.setItem("userId", res.map.id);
-          this.$router.push("/home"); //跳转到home页面下
+          this.$router.push("/top_menu/home"); //跳转到home页面下
         }
 
       });

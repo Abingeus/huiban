@@ -7,12 +7,15 @@
       <span style="color: #ccc; font-size: 16px">会伴</span>
     </div>
     <div>
-      <el-menu :default-actibe="activePath_top" class="el-menu-demo" mode="horizontal" >
-        <el-menu-item index="index" @click="saveNavState('index')"> 首页</el-menu-item>
+
+        <el-menu :default-actibe="activePath_top" class="el-menu-demo" mode="horizontal" >
+        <el-menu-item index="home" @click="saveNavState_top('home')"> 首页</el-menu-item>
+        <el-menu-item index="AdminManage" v-if="user.isAdmin===1" @click="saveNavState_top('AdminManage')"> 管理页面</el-menu-item>
         <el-menu-item index="conference" @click="saveNavState_top('conference')"> 会议</el-menu-item>
 
         <el-menu-item index="journals" @click="saveNavState_top('journals')"> 期刊</el-menu-item>
         <el-menu-item index="user_information" @click="saveNavState_top('user_information')"> 个人信息</el-menu-item>
+
         <el-menu-item index="Login" @click="saveNavState('Login')"> 登出</el-menu-item>
       </el-menu>
 
@@ -26,17 +29,7 @@
   <router-view></router-view>
 
     <div class="footer">
-      <el-popover placement="top-start" :width="150" trigger="hover">
-        <p slot="reference"> Copyright © 2011-2024 myhuiban.com. All Rights Reserved<br /> </p>
-      </el-popover>
-      <a href="https://beian.miit.gov.cn">project |</a>
-      <a href="https://beian.mps.gov.cn/#/query/webSearch">
-        <img
-            src="https://xxx.xiaobaitiao.icu/img/icu/202312211243636.png"
-            style="height: 16px; width: 16px; margin: 5px 0px 0px 5px"
-        />
-        浙公网安备33028202001002号
-      </a>
+
     </div>
   </el-container>
 </template>
@@ -121,6 +114,8 @@
 <script>
 
 
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -148,11 +143,13 @@ export default {
         password: "",
         createTime: "",
         updateTime: "",
+        isAdmin:Number,
       },
     };
   },
   async created() {
     // this.getMenuList();
+    await this.getUserInformatonrmaton();
     this.activePath = window.sessionStorage.getItem("activePath");
     this.activePath_top = window.sessionStorage.getItem("activePath_top");
     // console.log(this.activePath)
@@ -169,6 +166,10 @@ export default {
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
+    },
+    async getUserInformatonrmaton() {
+      const {data:infomation} = await axios.get("/api/user/userInfo");
+      this.user=infomation.data;
     },
 
 

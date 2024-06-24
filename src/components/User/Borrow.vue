@@ -125,13 +125,13 @@
           <el-col :span="12"> <!-- 每列占据24栅格中的8个栅格 -->
             <el-card class="fixed-height-card">
               <h3>最多浏览</h3>
-              <el-table :data="mostViewed" style="flex-grow: 1;"v-loading="loading"
+              <el-table :data="journals_view" style="flex-grow: 1;"v-loading="loading"
                         element-loading-text="拼命加载中"
                         element-loading-spinner="el-icon-loading"
                         element-loading-background="rgba(0, 0, 0, 0.8)">
-                <el-table-column prop="rank" label="#" width="50"></el-table-column>
-                <el-table-column prop="journals" label="期刊"></el-table-column>
-                <el-table-column prop="views" label="浏览"></el-table-column>
+                <el-table-column prop="id" label="#" width="50"></el-table-column>
+                <el-table-column prop="name" label="期刊"></el-table-column>
+                <el-table-column prop="viewCount" label="浏览"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
@@ -151,10 +151,10 @@
                      element-loading-spinner="el-icon-loading"
                      element-loading-background="rgba(0, 0, 0, 0.8)">
               <h3>最多关注</h3>
-              <el-table :data="mostFollowed">
-                <el-table-column prop="rank" label="#" width="50"></el-table-column>
-                <el-table-column prop="journals" label="期刊"></el-table-column>
-                <el-table-column prop="followers" label="关注"></el-table-column>
+              <el-table :data="journals_focus">
+                <el-table-column prop="id" label="#" width="50"></el-table-column>
+                <el-table-column prop="name" label="期刊"></el-table-column>
+                <el-table-column prop="focusCount" label="关注"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
@@ -195,8 +195,10 @@ export default {
       conferences_view: [],
       conferences_focus: [],
       conferences_attend: [],
-      jornals_view: [],
-      jornals_focus: [],
+      journals_view: [],
+      journals_focus: [],
+
+
       queryInfo: {
         pageNum: 1,
         pageSize: 5,
@@ -220,6 +222,8 @@ export default {
     this.coferencebyfocus();
     this.coferencebyview();
     this.coferencebyattend();
+    this.journalbyview();
+    this.journalbyfocus();
   },
   downLoad() {
     this.getPdf(this.title); //参数是下载的pdf文件名
@@ -255,6 +259,23 @@ export default {
         console.log(data.data);
 
       },
+      async journalbyview()
+      {
+        const {data:data} = await axios.get("/api/journal/journalRankedByViewCount");
+        this.journals_view=data.data;
+        this.loading=false;
+        console.log(data.data);
+
+      },
+      async journalbyfocus()
+      {
+        const {data:data} = await axios.get("/api/journal/journalRankedByFocus");
+        this.journals_focus=data.data;
+        this.loading=false;
+        console.log(data.data);
+
+      },
+
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
 

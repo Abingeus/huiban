@@ -36,7 +36,7 @@
 
 
       <el-table
-          :data="tableData"
+          :data="tableData1"
           height="520"
           border
           style="width: 100%; font-size: 14px"
@@ -48,36 +48,29 @@
           :default-sort="{ prop: 'message_date', order: 'ascending' }"
           stripe
       >
+
         <el-table-column
-            prop="message_number"
-            label="#"
-            sortable
-        ></el-table-column>
-        <el-table-column
-            prop="message_number"
+            prop="id"
             label="#"
             sortable
         ></el-table-column>
         <el-table-column prop="ccf" label="CCF"></el-table-column>
         <el-table-column label="全称">
           <template v-slot="{ row }">
-            <router-link :to="{ name: 'conference_information', params: { name: row.name } }">
+            <router-link :to="{ name: 'conference_information', query: { name: row.name } }">
               {{ row.name }}
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="issue" label="Special Issue"></el-table-column>
+        <el-table-column prop="core" label="CORE"></el-table-column>
+        <el-table-column prop="qualis" label="QULIS"></el-table-column>
+
         <el-table-column prop="deadline" label="截稿日期"></el-table-column>
-        <el-table-column prop="ifactor" label="影响因子"></el-table-column>
-        <el-table-column prop="publisher" label="出版商"></el-table-column>
-        <!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
-        <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
-        <!-- 添加自定义列 -->
-        <!--        <el-table-column label="详细信息">-->
-        <!--          <template #default="scope">-->
-        <!--            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
+        <el-table-column prop="notifation" label="通知日期"></el-table-column>
+        <el-table-column prop="meeting" label="会议日期"></el-table-column>
+        <el-table-column prop="address" label="会议地址"></el-table-column>
+        <el-table-column prop="session" label="届"></el-table-column>
+        <el-table-column prop="viewCount" label="浏览量"></el-table-column>
       </el-table>
       <el-pagination
           @size-change="handleSizeChange"
@@ -91,7 +84,7 @@
       </el-pagination>
       <el-row>征稿结束</el-row>
       <el-table
-          :data="tableData"
+          :data="tableData2"
           height="520"
           border
           style="width: 100%; font-size: 14px"
@@ -104,19 +97,20 @@
           stripe
       >
         <el-table-column
-            prop="message_number"
+            prop="id"
             label="#"
             sortable
         ></el-table-column>
-        <el-table-column prop="CCF" label="CCF"></el-table-column>
-        <el-table-column prop="CORE" label="CORE"></el-table-column>
-        <el-table-column prop="QUALIS" label="QUALIS"></el-table-column>
-        <el-table-column prop="Abbreviation" label="简称"></el-table-column>
-        <el-table-column prop="full_name" label="全称"></el-table-column>
-        <el-table-column prop="conference_date" label="会议日期"></el-table-column>
-        <el-table-column prop="conference_location" label="会议地点"></el-table-column>
-        <el-table-column prop="sessions" label="届数"></el-table-column>
-        <el-table-column prop="Browse" label="浏览"></el-table-column>
+        <el-table-column prop="ccf" label="CCF"></el-table-column>
+        <el-table-column prop="name" label="全称"></el-table-column>
+        <el-table-column prop="core" label="CORE"></el-table-column>
+        <el-table-column prop="qualis" label="QULIS"></el-table-column>
+        <el-table-column prop="deadline" label="截稿日期"></el-table-column>
+        <el-table-column prop="notifation" label="通知日期"></el-table-column>
+        <el-table-column prop="meeting" label="会议日期"></el-table-column>
+        <el-table-column prop="address" label="会议地址"></el-table-column>
+        <el-table-column prop="session" label="届"></el-table-column>
+        <el-table-column prop="viewCount" label="浏览量"></el-table-column>
       </el-table>
       <el-pagination
           @size-change="handleSizeChange"
@@ -163,7 +157,8 @@ export default {
     };
   },
   created() {
-    this.searchjournaling();
+    this.searchUnfinishconference();
+    this.searchFinishconference();
   },
   methods: {
     handleSizeChange(val) {
@@ -176,9 +171,9 @@ export default {
 
       this.searchjournaling();
     },
-    async searchjournaling() {
+    async searchUnfinishconference() {
       this.loading = true;
-      const {data:res } = await axios.get("/api/journal/solicit");
+      const {data:res } = await axios.get("/api/conference/unfinish");
 
       this.tableData1 = [];
       // if (res.status !== 200) {
@@ -191,7 +186,25 @@ export default {
       //   duration: 1000,
       // });
       this.loading = false;
-      this.tableData = res.data;
+      this.tableData1 = res.data;
+      // this.total = parseInt(res.data.total);
+    },
+    async searchFinishconference() {
+      this.loading = true;
+      const {data:res } = await axios.get("/api/conference/finish");
+
+      this.tableData2 = [];
+      // if (res.status !== 200) {
+      //   this.total = 0;
+      //   this.loading = false;
+      //   return this.$message.error(res.msg);
+      // }
+      // this.$message.success({
+      //   message: res.msg,
+      //   duration: 1000,
+      // });
+      this.loading = false;
+      this.tableData2 = res.data;
       // this.total = parseInt(res.data.total);
     },
     downLoad() {

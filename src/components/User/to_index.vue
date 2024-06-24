@@ -14,7 +14,9 @@
             placeholder="搜索..."
             prefix-icon="el-icon-search"
             clearable
+            @keyup.enter.native="handleSearch"
         >
+          <el-button slot="append" icon="el-icon-search" class="round-button" @click="handleSearch">搜索</el-button>
         </el-input>
       </div>
     </div>
@@ -134,24 +136,6 @@
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "message_number",
-          label: "信息编号",
-        },
-        {
-          value: "message_date",
-          label: "消息日期",
-        },
-        {
-          value: "message_category",
-          label: "消息类型",
-        },
-        {
-          value: "detail",
-          label: "内容",
-        },
-      ],
       tableData: [],
       queryInfo: {
         pageNum: 1,
@@ -160,14 +144,8 @@ export default {
         query: "",
       },
       total: 0,
+      searchQuery:"",
 
-      title: "消息查询表格",
-      json_fields: {
-        信息编号: "message_number",
-        消息日期: "message_date",
-        消息类型: "message_category",
-        内容: "detail",
-      },
       loading: true,
     };
   },
@@ -175,11 +153,14 @@ export default {
     this.searchMessageByPage();
   },
   methods: {
-    handleFocus(event) {
-      event.target.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
-    },
-    handleBlur(event) {
-      event.target.style.boxShadow = 'none';
+    // handleFocus(event) {
+    //   event.target.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
+    // },
+    // handleBlur(event) {
+    //   event.target.style.boxShadow = 'none';
+    // },
+    handleSearch(){
+      this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
     },
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
@@ -245,6 +226,9 @@ export default {
 
 .el-input {
   transition: box-shadow 0.3s ease;
+}
+.round-button {
+  border-radius: 100px; /* 圆角半径，调整为你需要的大小 */
 }
 
 .el-input__inner {

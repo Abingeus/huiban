@@ -14,50 +14,6 @@ const routes = [
 
     component: () => import("@/components/BookManage/LoginBookManage.vue"),
   },
-  {
-    path: "/home",
-    component: () => import("@/components/Home/Home.vue"),
-    redirect: "/index",
-    children: [
-      {
-        path: "/index",
-        component: () => import("@/components/Index/Index.vue"),
-        meta: {
-          title: "首页",
-        },
-      },
-      {
-        path: "/to_index",
-        component: () => import("@/components/User/to_index.vue"),
-      },
-      { path: "/Call_for_paper", component: () => import("@/components/User/Call_for_Papers.vue") },
-      {
-        path: "/notice",
-        component: () => import("@/components/User/Notice.vue"),
-      },
-      {
-        path: "/information",
-        component: () => import("@/components/User/Information.vue"),
-      },
-      {
-        path: "/borrow",
-        component: () => import("@/components/User/Borrow.vue"),
-      },
-      {
-        path: "/violation",
-        component: () => import("@/components/User/Violation.vue"),
-      },
-      {
-        path: "/comment",
-        component: () => import("@/components/User/Comment.vue"),
-      },
-      {
-        path: "/intelligent",
-        component: () => import("@/components/User/Intelligent.vue"),
-      },
-      // { path: "/chat", component: () => import("@/components/User/Chat") },
-    ],
-  },
   // {
   //   path: "/conference",
   //   component:()=>import("@/components/User/Conference.vue"),
@@ -91,10 +47,91 @@ const routes = [
     path:"/top_menu",
     component:()=>import("@/components/User/top_menu.vue"),
     children:[
+
+      {
+        path: "home",
+        component:()=>import("@/components/Home/Home.vue"),
+        children: [
+
+          {
+            path: "index",
+            component: () => import("@/components/Index/Index.vue"),
+          },
+          {
+            path: "to_index",
+            component: () => import("@/components/User/to_index.vue"),
+          },
+          { path: "Call_for_paper", component: () => import("@/components/User/Call_for_Papers.vue") },
+          {
+            path: "notice",
+            component: () => import("@/components/User/Notice.vue"),
+          },
+          {
+            path: "information",
+            component: () => import("@/components/User/Information.vue"),
+          },
+          {
+            path: "borrow",
+            component: () => import("@/components/User/Borrow.vue"),
+          },
+
+
+        ]
+
+      },
+      {
+        path: "AdminManage",
+        component: () => import("@/components/Admin/AdminManage.vue"),
+        children: [
+          {
+            path: "AddConference",
+            component: () => import("@/components/Admin/AddConference.vue"),
+          },
+          {
+            path: "DeleteConference",
+            component: () => import("@/components/Admin/DeleteConference.vue"),
+          },
+          {
+            path: "ChangeJournal",
+            component: () => import("@/components/Admin/ChangeJournal.vue"),
+          },
+          {
+            path: "AddJournal",
+            component: () => import("@/components/Admin/AddJournal.vue"),
+          },
+
+
+
+
+        ]
+      },
+      {
+        path: "violation",
+        component: () => import("@/components/User/Violation.vue"),
+      },
+      {
+        path: "comment",
+        component: () => import("@/components/User/Comment.vue"),
+      },
+      {
+        path: "intelligent",
+        component: () => import("@/components/User/Intelligent.vue"),
+      },
+
+
       {
         path:"page_view",
         component:()=>import("@/components/User/Page_Views.vue"),
 
+      },
+      {
+        path:"search",
+        component:()=>import("@/components/User/Search.vue"),
+
+      },
+      {
+        path:"home",
+        component:()=>import("@/components/Home/Home.vue"),
       },
       {
         path:"conference",
@@ -112,14 +149,17 @@ const routes = [
             path:"attended",
             component:()=>import("@/components/User/conference_attend.vue"),
           },
-
-
           ]
       },
       {
         path:"conference_information",
         name:"conference_information",
         component:()=>import("@/components/Conference_information/Conference_information.vue"),
+      },
+      {
+        path:"journal_information",
+        name:"journal_information",
+        component:()=>import("@/components/Conference_information/journal_information.vue"),
       },
 
       {
@@ -211,15 +251,12 @@ const routes = [
     children: [
       {
         path: "/bookmanage",
-        component: () => import("@/components/Admin/BookManage.vue"),
+        component: () => import("@/components/Admin/AdminIndex.vue"),
       },
-      {
-        path: "/booktype",
-        component: () => import("@/components/Admin/BookType.vue"),
-      },
+
       {
         path: "/statementmanage",
-        component: () => import("@/components/Admin/StatementManage.vue"),
+        component: () => import("@/components/Admin/ChangeJournal.vue"),
       },
       {
         path: "/statementsearch",
@@ -231,7 +268,7 @@ const routes = [
       },
       {
         path: "/bookadminmanage",
-        component: () => import("@/components/Admin/BookAdminManage.vue"),
+        component: () => import("@/components/Admin/AddConference.vue"),
       },
       {
         path: "/adminmanage",
@@ -239,7 +276,7 @@ const routes = [
       },
       {
         path: "/intelligent_analysis",
-        component: () => import("@/components/Admin/IntelligentAnalysis.vue"),
+        component: () => import("@/components/Admin/AddJournal.vue"),
       },
     ],
   },

@@ -1,29 +1,7 @@
 <template>
   <el-container class="home-container">
     <!-- 头部区域 -->
-    <el-header>
-      <div>
-        <!-- <img src="../assets/heima.png" alt="" /> -->
-        <span>Conference Partner</span>
-        <span style="color: #ccc; font-size: 16px">会伴</span>
-      </div>
-      <div>
-        <el-menu :default-actibe="activePath_top" class="el-menu-demo" mode="horizontal" >
-          <el-menu-item index="index" @click="saveNavState('index')"> 首页1</el-menu-item>
-          <el-menu-item index="conference" @click="saveNavState_top('conference')"> 会议</el-menu-item>
 
-
-          <el-menu-item index="journals" @click="saveNavState_top('journals')"> 期刊</el-menu-item>
-          <el-menu-item index="user_information" @click="saveNavState_top('user_information')"> 个人信息</el-menu-item>
-          <el-menu-item index="Login" @click="saveNavState('Login')"> 登出1</el-menu-item>
-        </el-menu>
-<!--        <div class="user">用户:{{ this.user.cardName }}</div>-->
-<!--        <el-button type="info" @click="logout">退出</el-button>-->
-      </div>
-
-
-
-    </el-header>
     <!-- 页面主体区域 -->
     <el-container>
       <!-- 侧边栏 -->
@@ -80,21 +58,7 @@
         <router-view></router-view>
 
         <div class="footer">
-          <el-popover placement="top-start" :width="150" trigger="hover">
-            <p slot="reference"> Copyright © 2011-2024 myhuiban.com. All Rights Reserved<br /> </p>
-            <img
-                src="https://pic.yupi.icu/5563/202312061315664.png"
-                style="height: 100px; width: 100px"
-            />
-          </el-popover>
-          <a href="https://beian.miit.gov.cn">project |</a>
-          <a href="https://beian.mps.gov.cn/#/query/webSearch">
-            <img
-                src="https://xxx.xiaobaitiao.icu/img/icu/202312211243636.png"
-                style="height: 16px; width: 16px; margin: 5px 0px 0px 5px"
-            />
-            浙公网安备33028202001002号
-          </a>
+
         </div>
       </el-main>
     </el-container>
@@ -160,7 +124,7 @@ export default {
     saveNavState(activePath) {
       // console.log("first")
       window.sessionStorage.setItem("activePath", activePath);
-      this.$router.push({ path: `/${activePath}` });
+      this.$router.push({ path: `/top_menu/home/${activePath}` });
       this.activePath = activePath;
       // console.log(this.activePath);
     },

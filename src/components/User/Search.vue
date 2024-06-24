@@ -1,80 +1,58 @@
 <template>
-  <div class="search_container">
-    <!-- 面包屑导航区域 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item>首页</el-breadcrumb-item>
-<!--      <el-breadcrumb-item>图书查询</el-breadcrumb-item>-->
-    </el-breadcrumb>
-    <el-card shadow="always">
-      <!-- 搜索内容和导出区域 -->
-      <el-row>
-        <el-col :span="6"
-          >条件搜索:
-          <el-select
-            v-model="queryInfo.condition"
-            filterable
-            placeholder="请选择"
-            style="margin-left: 15px"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="4">
-          <el-input
-            placeholder="请输入内容"
-            v-model="queryInfo.query"
-            class="input-with-select"
-            @keyup.enter.native="searchBookByPage"
-          >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="searchBookByPage"
-            ></el-button>
-          </el-input>
-        </el-col>
-        <el-col :span="2" style="float: right">
-          <download-excel
-            class="export-excel-wrapper"
-            :data="tableData"
-            :fields="json_fields"
-            :header="title"
-            name="test.xls"
-          >
-            <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
-            <el-button type="primary" class="el-icon-printer" size="mini"
-              >导出Excel
-            </el-button>
-          </download-excel>
-        </el-col>
-        <el-col :span="2" style="float: right">
-          <el-button
-            type="primary"
-            class="el-icon-printer"
-            size="mini"
-            @click="downLoad"
-            >导出PDF
-          </el-button>
-        </el-col>
-        <el-col :span="2" style="float: right">
-          <el-button
-            type="success"
-            class="el-icon-full-screen"
-            size="mini"
-            @click="fullScreen"
-            >全屏
-          </el-button>
-        </el-col>
-      </el-row>
-      <!-- 表格区域 -->
-      <el-table
-        :data="tableData"
+  <div>
+    <p>这里是 会议名字 为 {{ this.keyword }} 的项目的详细信息。</p>
+    <p>提示：{{this.$route.query.keyword}}</p>
+    <el-table
+        :data="tableData1"
+        height="520"
+        border
+        style="width: 100%; font-size: 14px"
+        :default-sort="{ prop: 'message_date', order: 'ascending' }"
+        stripe
+    >
+
+      <el-table-column
+          prop="id"
+          label="#"
+          sortable
+      ></el-table-column>
+      <el-table-column prop="ccf" label="CCF"></el-table-column>
+      <el-table-column label="全称">
+        <template v-slot="{ row }">
+          <router-link :to="{ name: 'conference_information', params: { name: row.name } }">
+            {{ row.name }}
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column prop="core" label="CORE"></el-table-column>
+      <el-table-column prop="qualis" label="QULIS"></el-table-column>
+
+      <el-table-column prop="deadline" label="截稿日期"></el-table-column>
+      <el-table-column prop="notifation" label="通知日期"></el-table-column>
+      <el-table-column prop="meeting" label="会议日期"></el-table-column>
+      <el-table-column prop="address" label="会议地址"></el-table-column>
+      <el-table-column prop="session" label="届"></el-table-column>
+      <el-table-column prop="viewCount" label="浏览量"></el-table-column>
+
+
+
+
+      <!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
+      <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
+      <!-- 添加自定义列 -->
+      <!--        <el-table-column label="详细信息">-->
+      <!--          <template #default="scope">-->
+      <!--            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>-->
+      <!--          </template>-->
+      <!--        </el-table-column>-->
+    </el-table>
+
+
+
+
+    <p>这里是 期刊名字 为 {{ this.keyword }} 的项目的详细信息。</p>
+    <el-table
+        :data="tableData2"
         height="520"
         border
         style="width: 100%; font-size: 14px"
@@ -83,146 +61,107 @@
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
         id="pdfDom"
-        :default-sort="{ prop: 'bookNumber', order: 'ascending' }"
+        :default-sort="{ prop: 'message_date', order: 'ascending' }"
         stripe
-      >
-        <el-table-column
-          prop="bookNumber"
-          label="图书编号"
+    >
+      <el-table-column
+          prop="id"
+          label="#"
           sortable
-        ></el-table-column>
-        <el-table-column prop="bookName" label="图书名称"></el-table-column>
-        <el-table-column prop="bookAuthor" label="作者"></el-table-column>
-        <el-table-column prop="bookLibrary" label="图书馆"></el-table-column>
-        <el-table-column prop="bookType" label="分类"></el-table-column>
-        <el-table-column
-          prop="bookLocation"
-          label="位置"
-          sortable
-        ></el-table-column>
-        <el-table-column
-          prop="bookStatus"
-          label="状态"
-          sortable
-        ></el-table-column>
-        <el-table-column prop="bookDescription" label="描述" width="600px">
-        </el-table-column>
-      </el-table>
-      <!-- 分页查询区域 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="this.queryInfo.pageNum"
-        :page-sizes="[1, 2, 3, 4, 5]"
-        :page-size="this.queryInfo.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="this.total"
-      >
-      </el-pagination>
-    </el-card>
+      ></el-table-column>
+      <el-table-column prop="ccf" label="CCF"></el-table-column>
+      <el-table-column prop="abbreviation" label="简称"></el-table-column>
+      <el-table-column prop="name" label="全称"></el-table-column>
+      <el-table-column prop="ifactor" label="影响因子"></el-table-column>
+      <el-table-column prop="publisher" label="出版商"></el-table-column>
+      <el-table-column prop="issn" label="ISSN"></el-table-column>
+      <el-table-column prop="viewCount" label="浏览"></el-table-column>
+      <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
+
+      <!-- 添加自定义列 -->
+      <!--        <el-table-column label="详细信息">-->
+      <!--          <template #default="scope">-->
+      <!--            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>-->
+      <!--          </template>-->
+      <!--        </el-table-column>-->
+    </el-table>
+
   </div>
+
+
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      options: [
-        {
-          value: "book_number",
-          label: "图书编号",
-        },
-        {
-          value: "book_name",
-          label: "图书名称",
-        },
-        {
-          value: "book_author",
-          label: "作者",
-        },
-        {
-          value: "book_location",
-          label: "位置",
-        },
-        {
-          value: "book_description",
-          label: "描述",
-        },
-      ],
-      tableData: [],
-      queryInfo: {
-        pageNum: 1,
-        pageSize: 5,
-        condition: "",
-        query: "",
-      },
-      total: 0,
+import axios from "axios";
 
-      title: "图书查询表格",
-      json_fields: {
-        图书编号: "bookNumber",
-        图书名称: "bookName",
-        作者: "bookAuthor",
-        图书馆: "bookLibrary",
-        分类: "bookType",
-        位置: "bookLocation",
-        状态: "bookStatus",
-        描述: "bookDescription",
-      },
-      loading: true,
-    };
+export default{
+  data(){
+    return{
+      keyword:"",
+      tableData1:[],
+      tableData2:[],
+    }
+
+
   },
   created() {
-    this.searchBookByPage();
+    this.keyword=this.$route.query.keyword;
+    this.SearchconferenceByKeyword();
+    this.SearchcjournalByKeyword();
+
   },
-  methods: {
-    handleSizeChange(val) {
-      this.queryInfo.pageSize = val;
-
-      this.searchBookByPage();
-    },
-    handleCurrentChange(val) {
-      this.queryInfo.pageNum = val;
-
-      this.searchBookByPage();
-    },
-    async searchBookByPage() {
-      this.loading = true;
-      const { data: res } = await this.$http.post(
-        "user/search_book_page",
-        this.queryInfo
+  methods:{
+    async SearchconferenceByKeyword() {
+      // this.loading = true;
+      const params = {
+        keyword: this.keyword
+      };
+      // params.append("keyword",this.keyword);
+      // const paramsString = params.toString();
+      // console.log(paramsString);
+      // const  params= {keyword:this.keyword};
+      console.log(params);
+      const {data:res } = await axios.get('/api/conference/conferenceSearchByKeyword',{params},
+        // {
+        //   // headers: {
+        //   //   'Content-Type': 'application/json',
+        //   // },
+        //
+        // }
       );
-      this.tableData = [];
-      if (res.status !== 200) {
-        this.total = 0;
-        this.loading = false;
-        return this.$message.error(res.msg);
-      }
-      this.$message.success({
-        message: res.msg,
-        duration: 1000,
-      });
+      console.log(res);
+      this.tableData1 = [];
+
       this.loading = false;
-      this.tableData = res.data.records;
-      this.total = parseInt(res.data.total);
+      this.tableData1 = res.data;
+
     },
-    downLoad() {
-      this.getPdf(this.title); //参数是下载的pdf文件名
+    async SearchcjournalByKeyword(){
+      const params = {
+        keyword: this.keyword
+      };
+      // params.append("keyword",this.keyword);
+      // const paramsString = params.toString();
+      // console.log(paramsString);
+      // const  params= {keyword:this.keyword};
+      console.log(params);
+      const {data:res } = await axios.get('/api/journal/journalSearchByKeyword',{params},
+          // {
+          //   // headers: {
+          //   //   'Content-Type': 'application/json',
+          //   // },
+          //
+          // }
+      );
+      console.log(res);
+
+      this.loading = false;
+      this.tableData2 = res.data;
     },
-    fullScreen() {
-      // Dom对象的一个属性: 可以用来判断当前是否为全屏模式(trueORfalse)
-      let full = document.fullscreenElement;
-      // 切换为全屏模式
-      if (!full) {
-        // 文档根节点的方法requestFullscreen实现全屏模式
-        document.documentElement.requestFullscreen();
-      } else {
-        // 退出全屏模式
-        document.exitFullscreen();
-      }
-    },
-  },
-};
+  }
+
+}
+
 </script>
 
 <style lang="css"></style>

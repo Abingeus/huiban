@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="用户名">
-              <el-input v-model="user.username"></el-input>
+              <el-input v-model="user.username"  :disabled = "true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">

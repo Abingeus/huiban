@@ -24,6 +24,7 @@
         <div class="actions">
           <el-button type="primary" @click="handleFollow">我要关注</el-button>
           <el-button type="success" @click="participate">我要参加</el-button>
+          <el-button type="warn" vif="flag===1" @click="update">我要修改</el-button>
         </div>
       </el-col>
 
@@ -39,18 +40,40 @@ export default {
       conferenceInfo:{
         conferenceName:"",
       },
+      user: {
+        userId: Number,
+        cardNumber: Number,
+        ruleNumber: Number,
+        status: Number,
+        cardName: "",
+        username: "",
+        password: "",
+        createTime: "",
+        updateTime: "",
+        isAdmin:Number,
+      },
+
 
 
     };
   },
   computed: {
     getname() {
-      return this.$route.params.name;
+      return this.$route.query.name;
     },},
+  created() {
+    this.view_conference();
+    const flag=localStorage.getItem('isAdmin');
+    this.user.isAdmin=parseInt(flag)
+    console.log("user.isAdmin");
+    console.log(flag);
+
+  },
   methods: {
     async handleFollow() {
       // Add your follow logic here
       const params = new URLSearchParams();
+
       params.append("conferenceName",  this.getname);
       console.log(params.toString());
 
@@ -74,7 +97,7 @@ export default {
       const params = new URLSearchParams();
       params.append("conferenceName", name);
 
-      const {code: responses} = await axios.post("/api/user/focusConference", params,
+      const {code: responses} = await axios.post("/api/user/attendConference", params,
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -84,6 +107,30 @@ export default {
       console.log(responses);
       console.log("test");
       this.$message.success('参加成功');
+    },
+    async view_conference(){
+      const params = new URLSearchParams();
+      params.append("conferenceName",  this.getname);
+      const  {data:responses} = await axios.post("/api/user/viewConference",params,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }
+      );
+
+    },
+    async update()
+    {
+      this.$router.push(
+          {
+            path:"/top_menu/AdminManage/editconference_information",
+            query:{
+              name:this.getname,
+            },
+
+          }
+      );
     }
   }
 };

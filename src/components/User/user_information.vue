@@ -21,32 +21,51 @@
           </el-row>
 
 
+
+
+
           <h2>关注的会议</h2>
           <el-table :data="focusConference" border class="table-container">
             <el-table-column prop="ccf" label="CCF"></el-table-column>
             <el-table-column prop="core" label="CORE"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS"></el-table-column>
-            <el-table-column prop="shortName" label="简称"></el-table-column>
-            <el-table-column prop="fullName" label="全称"></el-table-column>
+            <el-table-column prop="abbreviation" label="简称"></el-table-column>
+            <el-table-column prop="name" label="全称"></el-table-column>
             <el-table-column prop="deadline" label="截稿日期"></el-table-column>
             <el-table-column prop="notification" label="通知日期"></el-table-column>
-            <el-table-column prop="conferenceDate" label="会议日期"></el-table-column>
+            <el-table-column prop="meeting" label="会议日期"></el-table-column>
+            <el-table-column prop="address" label="会议地点"></el-table-column>
+            <el-table-column prop="session" label="届数"></el-table-column>
+            <el-table-column prop="viewCount" label="浏览量"></el-table-column>
+            <el-table-column label="取消关注">
+              <template v-slot:="scope">
+                <el-button @click="Deleteconference(scope.$index, scope.row.name)" type="danger" icon="el-icon-delete" circle></el-button>
+              </template>
+            </el-table-column>
           </el-table>
 
           <div class="table-container">
             <h2 style="display: inline-block; margin-right: 10px;">关注的期刊</h2>
             <el-table :data="focusJournalInfo" border style="display: inline-block; vertical-align: top;">
               <el-table-column prop="ccf" label="CCF"></el-table-column>
-              <el-table-column prop="fullName" label="全称"></el-table-column>
-              <el-table-column prop="impactFactor" label="影响因子"></el-table-column>
+              <el-table-column prop="abbreviation" label="简称"></el-table-column>
+              <el-table-column prop="name" label="全称"></el-table-column>
+              <el-table-column prop="ifactor" label="影响因子"></el-table-column>
               <el-table-column prop="publisher" label="出版商"></el-table-column>
+              <el-table-column prop="viewCount" label="浏览量"></el-table-column>
               <el-table-column prop="issn" label="ISSN"></el-table-column>
+              <el-table-column label="取消关注">
+                <template v-slot:="scope">
+                  <el-button @click="DeleteJournal(scope.$index, scope.row.name)" type="danger" icon="el-icon-delete" circle></el-button>
+                </template>
+              </el-table-column>
+
             </el-table>
           </div>
 
 
           <h2>关注的科研人员</h2>
-          <el-table :data="researchers" border class="table-container">
+          <el-table :data="focusresearcher" border class="table-container">
             <el-table-column prop="name" label="姓名"></el-table-column>
             <el-table-column prop="institution" label="科研机构"></el-table-column>
             <el-table-column prop="registrationDate" label="注册时间"></el-table-column>
@@ -61,11 +80,11 @@
           </el-table>
 
           <h2>浏览的会议</h2>
-          <el-table :data="browsedConferences" border class="table-container">
+          <el-table :data="viewConference" border class="table-container">
             <el-table-column prop="ccf" label="CCF"></el-table-column>
             <el-table-column prop="core" label="CORE"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS"></el-table-column>
-            <el-table-column prop="shortName" label="简称"></el-table-column>
+            <el-table-column prop="abbreviation" label="简称"></el-table-column>
             <el-table-column prop="fullName" label="全称"></el-table-column>
             <el-table-column prop="deadline" label="截稿日期"></el-table-column>
             <el-table-column prop="notification" label="通知日期"></el-table-column>
@@ -73,10 +92,11 @@
           </el-table>
 
           <h2>浏览的期刊</h2>
-          <el-table :data="browsedJournals" border class="table-container">
+          <el-table :data="viewJournal" border class="table-container">
             <el-table-column prop="ccf" label="CCF"></el-table-column>
-            <el-table-column prop="fullName" label="全称"></el-table-column>
-            <el-table-column prop="impactFactor" label="影响因子"></el-table-column>
+            <el-table-column prop="name" label="全称"></el-table-column>
+            <el-table-column prop="abbreviation" label="简称"></el-table-column>
+            <el-table-column prop="ifactor" label="影响因子"></el-table-column>
             <el-table-column prop="publisher" label="出版商"></el-table-column>
             <el-table-column prop="issn" label="ISSN"></el-table-column>
           </el-table>
@@ -84,21 +104,7 @@
         <!-- 路由占位符 -->
         <!--        <router-view></router-view>-->
         <div style="text-align: center;" class="table-container">
-          <el-popover placement="top-start" :width="150" trigger="hover">
-            <p slot="reference"> Copyright © 2011-2024 myhuiban.com. All Rights Reserved<br /> </p>
-            <img
-                src="https://pic.yupi.icu/5563/202312061315664.png"
-                style="height: 100px; width: 100px"
-            />
-          </el-popover>
-          <a href="https://beian.miit.gov.cn">project |</a>
-          <a href="https://beian.mps.gov.cn/#/query/webSearch">
-            <img
-                src="https://xxx.xiaobaitiao.icu/img/icu/202312211243636.png"
-                style="height: 16px; width: 16px; margin: 5px 0px 0px 5px"
-            />
-            浙公网安备33028202001002号
-          </a>
+
         </div>
       </el-main>
     </el-container>
@@ -112,12 +118,15 @@
 
 import axios from "axios";
 import router from "@/router";
+import {MessageBox} from "element-ui";
 
 export default {
+  inject:['reload'],
   data() {
     return {
 //左侧菜单数据
       menulist: [],
+
       iconsObj: {
         125: "iconfont icon-user",
         103: "iconfont icon-tijikongjian",
@@ -146,11 +155,25 @@ export default {
         abbreviation: "",
         name: "",
         ifactor: "",
+
         publisher: "",
         viewCount: "",
         issn: "",
       },
       focusConference:{
+
+      },
+      focusResearch:{
+        id: Number,
+        username: "",
+        nickname: "",
+        email: "",
+        userPic: "",
+        organization: "",
+        createTime: "",
+        updateTime: "",
+      },
+      viewConference:{
         id: Number,
         ccf: "",
         core:"",
@@ -163,7 +186,12 @@ export default {
         address:"",
         seesion:"",
         viewCount:"",
-      }
+      },
+      viewJournal:{
+
+      },
+
+
 
     };
   },
@@ -182,7 +210,9 @@ export default {
     this.getUserInformatonrmaton();
     this.getfocusJournalInfo();
     this.getfocusConference();
-
+    this.getUsername();
+    this.getviewconference();
+    this.getviewJournal();
 
 
   },
@@ -210,6 +240,66 @@ export default {
           }
       );
     },
+    async getUsername() {
+      const {data:infomation} = await axios.get("/api/user/focusUserInfo");
+      this.focusResearch = infomation.data;
+      console.log(focusResearch);
+    },
+    async getviewconference() {
+      const {data:infomation} = await axios.get("/api/user/viewConferenceInfo");
+
+      this.viewConference = infomation.data;
+      console.log(viewConference);
+    },
+    async getviewJournal() {
+      const {data:infomation} = await axios.get("/api/user/viewConferenceInfo");
+
+      this.viewJournal = infomation.data;
+      console.log(viewConference);
+    },
+    async Deleteconference(index,name) {
+      MessageBox.confirm(`确定删除会议 ${name} 吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const params = new URLSearchParams();
+        params.append("conferenceName", name);
+
+        const {data: information} = await axios.post("/api/user/stopFocusConference",params,{
+          // headers: {
+          //   'Content-Type': 'application/x-www-form-urlencoded'
+          // },
+        });
+        this.reload();
+      }).catch(() => {
+        // 点击取消，什么也不做
+      });
+    },
+    async DeleteJournal(ndex,name){
+      MessageBox.confirm(`确定删除期刊 ${name} 吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const params = new URLSearchParams();
+        params.append("journalName", name);
+
+        const {data: information} = await axios.post("/api/user/stopFocusJournal",params,{
+          // headers: {
+          //   'Content-Type': 'application/x-www-form-urlencoded'
+          // },
+        });
+        console.log(information);
+        this.reload();
+        this.getviewconference();
+      }).catch(() => {
+        // 点击取消，什么也不做
+      });
+
+    },
+
+
 
 
     logout() {
@@ -246,6 +336,7 @@ export default {
 <style lang="less" scoped>
 .table-container {
   margin-bottom: 1.5%;
+
 }
 
 .footer {

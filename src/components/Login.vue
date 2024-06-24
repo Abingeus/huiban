@@ -19,6 +19,7 @@
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns">
+          <el-button type="warning" @click="Adminlogin" :loading="loginLoading1">管理员登录</el-button>
           <el-button type="primary" @click="login" :loading="loginLoading">登录</el-button>
           <el-button type="info" @click="resetLoginForm">注册</el-button>
         </el-form-item>
@@ -71,6 +72,9 @@ export default {
         username: "相思断红肠11",
         password: "1234567",
       },
+      userInfo:{
+
+      },
 
       //登录表单规则的验证对象
       loginFormRules: {
@@ -93,13 +97,74 @@ export default {
           },
         ],
       },
-      loginLoading: false
+      loginLoading1: false,
+      loginLoading2: false,
     };
   },
   methods: {
     resetLoginForm() {
       this.$router.push('/Register')
       // this.$refs.loginFormRef.resetFields();
+    },
+    async getUserAdmin() {
+      const {data:infomation} = await axios.get("/api/user/userInfo");
+      this.userInfo=infomation.data;
+    },
+    Adminlogin()
+    {
+      this.$refs.loginFormRef.validate(async (valid) => {
+        if (!valid) {
+          return;
+        }
+        this.loginLoading1 = true;
+        const username = this.loginForm.username;
+        const password = this.loginForm.password;
+
+        const encodedData = qs.stringify({
+          username: this.loginForm.username,
+          password: this.loginForm.password
+
+        });
+
+        const { data: res } = await axios.post('/api/user/login', encodedData, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        });
+
+        if (res.code==0)
+        {
+          localStorage.setItem('jwtToken',res.data);
+          localStorage.setItem('expirationIn',10);
+          const expirationTime =Date.now()+10000*1000;
+          localStorage.setItem('tokenExpiration', expirationTime.toString());
+          await this.getUserAdmin();
+          console.log(this.userInfo.isAdmin);
+          this.loginLoading1 = false;
+
+          if (this.userInfo.isAdmin==0)
+          {
+            return this.$message.error("用户非管理员");
+            this.$router.push("/login");
+          }
+          else {
+            this.$message.success(res.message);
+            localStorage.setItem('isAdmin',1);
+            this.$router.push("/top_menu/home");
+          } //跳转到home页面下
+
+
+        }
+        if(res.code==1||this.userInfo.isAdmin==0)
+        {
+          this.loginLoading1=false;
+          return this.$message.error(res.message);
+          console.log(res);
+        }
+
+
+
+      });
     },
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
@@ -108,9 +173,9 @@ export default {
         if (!valid) {
           return;
         }
-        this.loginLoading = true;
+        this.loginLoading2 = true;
         // 进行md5加密
-        const salt = "xiaobaitiao";
+
         const username = this.loginForm.username;
         const password = this.loginForm.password;
 
@@ -124,9 +189,10 @@ export default {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         });
+        localStorage.setItem('isAdmin',0);
         if(res.code==1)
         {
-          this.loginLoading=false;
+          this.loginLoading2=false;
           return this.$message.error(res.message);
           console.log(res);
         }
@@ -148,14 +214,14 @@ export default {
           localStorage.setItem('jwtToken',res.data);
 
           localStorage.setItem('expirationIn',10);
-          const expirationTime =Date.now()+1000*1000;
+          const expirationTime =Date.now()+10000*1000;
           localStorage.setItem('tokenExpiration', expirationTime.toString());
 
           this.$message.success(res.message);
-          this.loginLoading = false;
+          this.loginLoading2 = false;
           // window.sessionStorage.setItem("token", res.map.token);
           // window.sessionStorage.setItem("userId", res.map.id);
-          this.$router.push("/home"); //跳转到home页面下
+          this.$router.push("/top_menu/home"); //跳转到home页面下
 
         }
 
