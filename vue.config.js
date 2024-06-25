@@ -23,7 +23,7 @@ module.exports = defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // 后端服务器的地址
+        target: 'http://123.60.177.121:8080', // 后端服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

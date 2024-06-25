@@ -298,7 +298,7 @@ router.beforeEach((to, from, next) => {
   if (localStorage.getItem('jwtToken')&& Date.now()<parseInt(localStorage.tokenExpiration)) {
     next();
   } else {
-    if (to.path === '/login') {
+    if (to.path === '/login'||to.path ==='/Register') {
       next();
     } else {
       next({path:'/login'});
