@@ -31,63 +31,12 @@
           </el-button>
         </el-col>
       </el-row>
-      <!-- 表格区域 -->
-<!--      <el-table-->
-<!--          :data="tableData"-->
-<!--          height="520"-->
-<!--          border-->
-<!--          style="width: 100%; font-size: 14px"-->
-<!--          v-loading="loading"-->
-<!--          element-loading-text="拼命加载中"-->
-<!--          element-loading-spinner="el-icon-loading"-->
-<!--          element-loading-background="rgba(0, 0, 0, 0.8)"-->
-<!--          id="pdfDom"-->
-<!--          :default-sort="{ prop: 'message_date', order: 'ascending' }"-->
-<!--          stripe-->
-<!--      >-->
-<!--        <el-table-column-->
-<!--            prop="message_number"-->
-<!--            label="#"-->
-<!--            sortable-->
-<!--        ></el-table-column>-->
-<!--        <el-table-column prop="ccf" label="CCF"></el-table-column>-->
-<!--        <el-table-column prop="CORE" label="CORE"></el-table-column>-->
-<!--        <el-table-column prop="QUALIS" label="QUALIS"></el-table-column>-->
-<!--        <el-table-column prop="Abbreviation" label="简称"></el-table-column>-->
-<!--        <el-table-column prop="name" label="全称"></el-table-column>-->
-<!--        <el-table-column prop="postpone" label="延期"></el-table-column>-->
-<!--        <el-table-column prop="deadline_date" label="截稿日期"></el-table-column>-->
-<!--        <el-table-column prop="notification_date" label="通知日期"></el-table-column>-->
-<!--        <el-table-column prop="conference_date" label="会议日期"></el-table-column>-->
-<!--        <el-table-column prop="conference_location" label="会议地点"></el-table-column>-->
-<!--        <el-table-column prop="sessions" label="届数"></el-table-column>-->
-<!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
-<!--        &lt;!&ndash;        <el-table-column prop="bookLibrary" label="分类"></el-table-column>&ndash;&gt;-->
-
-<!--        &lt;!&ndash; 添加自定义列 &ndash;&gt;-->
-<!--&lt;!&ndash;        <el-table-column label="详细信息">&ndash;&gt;-->
-<!--&lt;!&ndash;          <template #default="scope">&ndash;&gt;-->
-<!--&lt;!&ndash;            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>&ndash;&gt;-->
-<!--&lt;!&ndash;          </template>&ndash;&gt;-->
-<!--&lt;!&ndash;        </el-table-column>&ndash;&gt;-->
-<!--      </el-table>-->
-<!--      &lt;!&ndash; 分页查询区域 &ndash;&gt;-->
-<!--      <el-pagination-->
-<!--          @size-change="handleSizeChange"-->
-<!--          @current-change="handleCurrentChange"-->
-<!--          :current-page="this.queryInfo.pageNum"-->
-<!--          :page-sizes="[1, 2, 3, 4, 5]"-->
-<!--          :page-size="this.queryInfo.pageSize"-->
-<!--          layout="total, sizes, prev, pager, next, jumper"-->
-<!--          :total="this.total"-->
-<!--      >-->
-<!--      </el-pagination>-->
       <el-col :span="30"
       >CCF: Journal Rank (A, B, C) from China Computer Federation (2022)
       </el-col>
 
       <el-table
-          :data="tableData"
+          :data="currentTableData"
           height="520"
           border
           style="width: 100%; font-size: 14px"
@@ -99,40 +48,29 @@
           :default-sort="{ prop: 'message_date', order: 'ascending' }"
           stripe
       >
-        <el-table-column
-            prop="message_number"
-            label="#"
-            sortable
-        ></el-table-column>
-        <el-table-column prop="ccf" label="CCF"></el-table-column>
-        <el-table-column label="全称">
+        <el-table-column prop="ccf" label="CCF"  min-width="30"></el-table-column>
+        <el-table-column label="全称"  min-width="200">
           <template v-slot="{ row }">
             <router-link :to="{ name: 'journal_information', query: { name: row.name } }">
               {{ row.name }}
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="issue" label="Special Issue"></el-table-column>
-        <el-table-column prop="deadline" label="截稿日期"></el-table-column>
-        <el-table-column prop="ifactor" label="影响因子"></el-table-column>
-        <el-table-column prop="publisher" label="出版商"></el-table-column>
-<!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
-        <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
-        <!-- 添加自定义列 -->
-        <!--        <el-table-column label="详细信息">-->
-        <!--          <template #default="scope">-->
-        <!--            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
+        <el-table-column prop="issue" label="Special Issue"  min-width="300"></el-table-column>
+        <el-table-column prop="deadline" label="截稿日期"  min-width="100"></el-table-column>
+        <el-table-column prop="ifactor" label="影响因子"  min-width="100"></el-table-column>
+        <el-table-column prop="publisher" label="出版商"  min-width="100"></el-table-column>
+
       </el-table>
       <el-pagination
-          @size-change="handleSizeChange"
+          background
+          layout="total,sizes,prev, pager, next, jumper"
+          :total="total"
+          :page-size="pageSize"
+          :page-sizes="[1 ,5, 10, 15, 20]"
+          :current-page="currentPage"
           @current-change="handleCurrentChange"
-          :current-page="this.queryInfo.pageNum"
-          :page-sizes="[1, 2, 3, 4, 5]"
-          :page-size="this.queryInfo.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="this.total"
+          @size-change="handleSizeChange"
       >
       </el-pagination>
     </el-card>
@@ -146,16 +84,13 @@ export default {
   data() {
     return {
       tableData: [],
-      queryInfo: {
-        pageNum: 1,
-        pageSize: 5,
-        condition: "",
-        query: "",
-      },
-      total: 0,
+      currentTableData: [], // 当前页数据
+      total: 0, // 总条目数
+      pageSize: 5, // 每页显示条目数
+      currentPage: 1, // 当前页码
+      loading: false,
 
-      title: "消息查询表格",
-      loading: true,
+
     };
   },
   created() {
@@ -163,33 +98,33 @@ export default {
 
   },
   methods: {
-    handleSizeChange(val) {
-      this.queryInfo.pageSize = val;
-
-      this.searchMessageByPage();
+    updateCurrentTableData() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      console.log(this.tableData);
+      console.log(start);
+      console.log(end);
+      this.currentTableData = this.tableData.slice(start, end);
     },
+    // 页码变化时触发
     handleCurrentChange(val) {
-      this.queryInfo.pageNum = val;
-
-      this.searchMessageByPage();
+      this.currentPage = val;
+      this.updateCurrentTableData();
+    },
+    // 每页条数变化时触发
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.updateCurrentTableData();
     },
     async searchjournaling() {
       this.loading = true;
       const {data:res } = await axios.get("/api/journal/solicit");
-
       this.tableData = [];
-      // if (res.status !== 200) {
-      //   this.total = 0;
-      //   this.loading = false;
-      //   return this.$message.error(res.msg);
-      // }
-      // this.$message.success({
-      //   message: res.msg,
-      //   duration: 1000,
-      // });
-      this.loading = false;
       this.tableData = res.data;
-      // this.total = parseInt(res.data.total);
+      this.total = this.tableData.length;
+      this.updateCurrentTableData();
+      this.loading = false;
+
     },
     downLoad() {
       this.getPdf(this.title); //参数是下载的pdf文件名

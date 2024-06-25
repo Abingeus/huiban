@@ -36,7 +36,7 @@
       </el-row>
       <!-- 表格区域 -->
       <el-table
-          :data="conferences"
+          :data="currentTableData"
           height="520"
           border
           style="width: 100%; font-size: 14px"
@@ -53,30 +53,31 @@
 <!--            label="#"-->
 <!--            sortable-->
 <!--        ></el-table-column>-->
-        <el-table-column prop="id" label="ID" width="50"></el-table-column>
-        <el-table-column prop="name" label="Name"></el-table-column>
-        <el-table-column prop="abbreviation" label="Abbreviation"></el-table-column>
-        <el-table-column prop="ccf" label="CCF"></el-table-column>
-        <el-table-column prop="core" label="Core"></el-table-column>
-        <el-table-column prop="qualis" label="Qualis"></el-table-column>
-        <el-table-column prop="deadline" label="Deadline"></el-table-column>
-        <el-table-column prop="notification" label="Notification"></el-table-column>
-        <el-table-column prop="meeting" label="Meeting"></el-table-column>
-        <el-table-column prop="address" label="Address"></el-table-column>
-        <el-table-column prop="session" label="Session"></el-table-column>
-        <el-table-column prop="viewCount" label="View Count"></el-table-column>
-        <el-table-column prop="focusCount" label="Focus Count"></el-table-column>
+<!--        <el-table-column prop="id" label="ID"  min-width="30"></el-table-column>-->
+        <el-table-column prop="name" label="Name"  min-width="200"> </el-table-column>
+        <el-table-column prop="abbreviation" label="Abbreviation"  min-width="120"></el-table-column>
+        <el-table-column prop="ccf" label="CCF"  min-width="50"></el-table-column>
+        <el-table-column prop="core" label="Core" min-width="60"></el-table-column>
+        <el-table-column prop="qualis" label="Qualis" min-width="100"></el-table-column>
+        <el-table-column prop="deadline" label="Deadline" min-width="100"></el-table-column>
+        <el-table-column prop="notification" label="Notification" min-width="110"></el-table-column>
+        <el-tble-column prop="meeting" label="Meeting" min-width="105"></el-tble-column>
+        <el-table-column prop="address" label="Address" min-width="300"></el-table-column>
+        <el-table-column prop="session" label="Session" min-width="80"></el-table-column>
+        <el-table-column prop="viewCount" label="View Count" min-width="60"></el-table-column>
+        <el-table-column prop="focusCount" label="Focus Count" min-width="60"></el-table-column>
       </el-table>
 
       <!-- 分页查询区域 -->
       <el-pagination
-          @size-change="handleSizeChange"
+          background
+          layout="total,sizes,prev, pager, next, jumper"
+          :total="total"
+          :page-size="pageSize"
+          :page-sizes="[5, 10, 15, 20]"
+          :current-page="currentPage"
           @current-change="handleCurrentChange"
-          :current-page="this.queryInfo.pageNum"
-          :page-sizes="[1, 2, 3, 4, 5]"
-          :page-size="this.queryInfo.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="this.total"
+          @size-change="handleSizeChange"
       >
       </el-pagination>
     </el-card>
@@ -89,74 +90,73 @@ import axios from "axios";
 export default {
   data() {
     return {
+      currentTableData: [], // 当前页数据
+      pageSize: 5, // 每页显示条目数
+      currentPage: 1, // 当前页码
       conferences:[],
-      conferences_view: [],
-      conferences_focus: [],
-      conferences_attend: [],
-      jornals_view: [],
-      jornals_focus: [],
-
-
-
-      tableData: [],
-      queryInfo: {
-        pageNum: 1,
-        pageSize: 5,
-        condition: "",
-        query: "",
-      },
       total: 0,
-
-
       loading: true,
     };
   },
   created() {
     this.coferencebyfocus();
-    this.coferencebyview();
-    this.coferencebyattend();
+    // this.coferencebyview();
+    // this.coferencebyattend();
   },
   methods: {
+    updateCurrentTableData() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = start + this.pageSize;
+
+      this.currentTableData = this.conferences.slice(start, end);
+      this.loading=false;
+      console.log("当前");
+      console.log(this.currentTableData);
+    },
+    // 页码变化时触发
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.updateCurrentTableData();
+    },
+    // 每页条数变化时触发
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.updateCurrentTableData();
+    },
     async coferencebyfocus()
     {
       const {data:data} = await axios.get("/api/conference/conferenceRankedByFocus");
-      this.conferences_focus=data.data;
+
+      // this.conferences_focus=data.data;
       this.conferences=data.data;
-      this.loading=false;
+      this.total = this.conferences.length;
+      this.updateCurrentTableData();
+      // this.loading=false;
       console.log(data.data);
 
     },
-    async coferencebyattend()
-    {
-      const {data:data} = await axios.get("/api/conference/conferenceRankedByAttend");
-      this. conferences_attend=data.data;
-      this.loading=false;
-      console.log(data.data);
-
-    },
-    async coferencebyview()
-    {
-      const {data:data} = await axios.get("/api/conference/conferenceRankedByViewCount");
-      this. conferences_view=data.data;
-      this.loading=false;
-      console.log(data.data);
-
-    },
-
-
+    // async coferencebyattend()
+    // {
+    //   const {data:data} = await axios.get("/api/conference/conferenceRankedByAttend");
+    //   this. conferences_attend=data.data;
+    //   this.loading=false;
+    //   console.log(data.data);
+    //
+    // },
+    // async coferencebyview()
+    // {
+    //   const {data:data} = await axios.get("/api/conference/conferenceRankedByViewCount");
+    //   this. conferences_view=data.data;
+    //   this.loading=false;
+    //   console.log(data.data);
+    //
+    // },
 
 
 
-    handleSizeChange(val) {
-      this.queryInfo.pageSize = val;
 
-      this.searchMessageByPage();
-    },
-    handleCurrentChange(val) {
-      this.queryInfo.pageNum = val;
 
-      // this.searchMessageByPage();
-    },
+
     // async searchMessageByPage() {
     //   this.loading = true;
     //   const { data: res } = await this.$http.post(

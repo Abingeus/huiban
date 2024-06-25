@@ -9,11 +9,7 @@ const routes = [
   { path: "/",redirect: "/login" },
   { path: "/Register",component:()=>import("@/components/Register.vue")},
   { path: "/login", name:"login",component: () => import("@/components/Login.vue") },
-  {
-    path: "/loginmanage",
 
-    component: () => import("@/components/BookManage/LoginBookManage.vue"),
-  },
   // {
   //   path: "/conference",
   //   component:()=>import("@/components/User/Conference.vue"),
@@ -210,37 +206,7 @@ const routes = [
     ]
   },
 
-  {
-    path: "/homemange",
-    component: () => import("@/components/Home/HomeManage.vue"),
-    children: [
-      {
-        path: "/borrowbook",
-        component: () => import("@/components/BookManage/BorrowBook.vue"),
-      },
-      {
-        path: "/returnbook",
-        component: () => import("@/components/BookManage/ReturnBook.vue"),
-      },
-      {
-        path: "/borrowstatement",
-        component: () => import("@/components/BookManage/BorrowStatement.vue"),
-      },
-      {
-        path: "/returnstatement",
-        component: () => import("@/components/BookManage/ReturnStatement.vue"),
-      },
-      {
-        path: "/noticemanage",
-        component: () => import("@/components/BookManage/NoticeManage.vue"),
-      },
-      {
-        path: "/bookexpire",
-        name: "bookexpire",
-        component: () => import("@/components/BookManage/BookExpire.vue"),
-      },
-    ],
-  },
+
   {
     path: "/loginadmin",
     component: () => import("@/components/Admin/LoginAdmin.vue"),

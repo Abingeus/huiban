@@ -24,6 +24,7 @@
       <div class="actions">
         <el-button type="primary" @click="handleFollow">我要关注</el-button>
         <el-button type="success" @click="participate">我要参加</el-button>
+        <el-button type="warn" v-if="this.flag===1" @click="update">我要修改</el-button>
       </div>
     </el-col>
 
@@ -39,6 +40,7 @@ export default {
       journalInfo:{
         journalName:"",
       },
+      flag:0,
 
 
 
@@ -50,6 +52,8 @@ export default {
     },},
   created() {
     this.view_journals();
+    const Admin=localStorage.getItem('isAdmin');
+    this.flag=parseInt(Admin)
   },
   methods: {
     async handleFollow() {

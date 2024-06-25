@@ -37,23 +37,23 @@
       :default-sort="{ prop: 'message_date', order: 'ascending' }"
       stripe
   >
-    <el-table-column
-        prop="message_number"
-        label="#"
-        sortable
-    ></el-table-column>
-    <el-table-column prop="ccf" label="CCF"></el-table-column>
-    <el-table-column label="全称">
+<!--    <el-table-column-->
+<!--        prop="message_number"-->
+<!--        label="#"-->
+<!--        sortable-->
+<!--    ></el-table-column>-->
+    <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
+    <el-table-column label="全称" min-width="100">
       <template v-slot="{ row }">
         <router-link :to="{ name: 'journal_information', query: { name: row.name } }">
           {{ row.name }}
         </router-link>
       </template>
     </el-table-column>
-    <el-table-column prop="issue" label="Special Issue"></el-table-column>
-    <el-table-column prop="deadline" label="截稿日期"></el-table-column>
-    <el-table-column prop="ifactor" label="影响因子"></el-table-column>
-    <el-table-column prop="publisher" label="出版商"></el-table-column>
+    <el-table-column prop="issue" label="Special Issue" min-width="200"></el-table-column>
+    <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
+    <el-table-column prop="ifactor" label="影响因子" min-width="25"></el-table-column>
+    <el-table-column prop="publisher" label="出版商" min-width="50"></el-table-column>
     <!--        <el-table-column prop="Browse" label="浏览"></el-table-column>-->
     <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
     <!-- 添加自定义列 -->
@@ -94,18 +94,18 @@
       :default-sort="{ prop: 'message_date', order: 'ascending' }"
       stripe
   >
-    <el-table-column
-        prop="id"
-        label="#"
-        sortable
-    ></el-table-column>
-    <el-table-column prop="ccf" label="CCF"></el-table-column>
-    <el-table-column prop="abbreviation" label="简称"></el-table-column>
-    <el-table-column prop="name" label="全称"></el-table-column>
-    <el-table-column prop="ifactor" label="影响因子"></el-table-column>
-    <el-table-column prop="publisher" label="出版商"></el-table-column>
-    <el-table-column prop="issn" label="ISSN"></el-table-column>
-    <el-table-column prop="viewCount" label="浏览"></el-table-column>
+<!--    <el-table-column-->
+<!--        prop="id"-->
+<!--        label="#"-->
+<!--        sortable-->
+<!--    ></el-table-column>-->
+    <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
+    <el-table-column prop="abbreviation" label="简称" min-width="50"></el-table-column>
+    <el-table-column prop="name" label="全称" min-width="250"></el-table-column>
+    <el-table-column prop="ifactor" label="影响因子" min-width="50"></el-table-column>
+    <el-table-column prop="publisher" label="出版商" min-width="80"></el-table-column>
+    <el-table-column prop="issn" label="ISSN" min-width="50"></el-table-column>
+    <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
     <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
 
     <!-- 添加自定义列 -->

@@ -24,7 +24,7 @@
         <div class="actions">
           <el-button type="primary" @click="handleFollow">我要关注</el-button>
           <el-button type="success" @click="participate">我要参加</el-button>
-          <el-button type="warn" vif="flag===1" @click="update">我要修改</el-button>
+          <el-button type="warn" v-if="this.flag===1" @click="update">我要修改</el-button>
         </div>
       </el-col>
 
@@ -52,6 +52,7 @@ export default {
         updateTime: "",
         isAdmin:Number,
       },
+      flag:0,
 
 
 
@@ -63,10 +64,8 @@ export default {
     },},
   created() {
     this.view_conference();
-    const flag=localStorage.getItem('isAdmin');
-    this.user.isAdmin=parseInt(flag)
-    console.log("user.isAdmin");
-    console.log(flag);
+    const Admin=localStorage.getItem('isAdmin');
+    this.flag=parseInt(Admin)
 
   },
   methods: {
@@ -95,16 +94,16 @@ export default {
       // Add your participate logic here
       this.$message.success('参加成功');
       const params = new URLSearchParams();
-      params.append("conferenceName", name);
+      params.append("conferenceName", this.getname);
 
-      const {code: responses} = await axios.post("/api/user/attendConference", params,
+      const responses = await axios.post("/api/user/attendConference", params,
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
           }
       );
-      console.log(responses);
+      console.log(responses.data);
       console.log("test");
       this.$message.success('参加成功');
     },
