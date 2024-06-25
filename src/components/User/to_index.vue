@@ -163,11 +163,11 @@ export default {
       console.log(this.loading1);
     },
     handleSizeChange(val) {
-      this.queryInfo.pageSize = val;
+      this.queryInfo.pageNum = val;
       this.updateCurrentTableData_message();
     },
     handleCurrentChange(val) {
-      this.queryInfo.pageNum = val;
+      this.queryInfo.currentpage = val;
       this.updateCurrentTableData_message();
 
     },
@@ -178,7 +178,7 @@ export default {
       this.tableData = [];
       if (res.code === 0) {
         this.tableData = res.data;
-        this.queryInfo.total = parseInt(res.data.total);
+        this.queryInfo.total = this.tableData.length;
         this.updateCurrentTableData_message();
       }
 

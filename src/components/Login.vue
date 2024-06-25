@@ -10,12 +10,12 @@
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
         <!-- 用户名 -->
         <el-form-item prop="username">
-          <el-input v-model.trim="loginForm.username" prefix-icon="iconfont icon-gerenxinxi"></el-input>
+          <el-input v-model.trim="loginForm.username" prefix-icon="iconfont icon-gerenxinxi"  placeholder="请输入用户名" ></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" prefix-icon="iconfont icon-tianchongxing-" type="password"
-            @keyup.enter.native="login" :show-password="true"></el-input>
+          <el-input v-model="loginForm.password" prefix-icon="iconfont icon-tianchongxing-" type="password"  placeholder="请输入密码"
+                    @keyup.enter.native="login" :show-password="true"></el-input>
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns">
@@ -39,24 +39,6 @@
         <i class="iconfont icon-guanliyuan" @click="goManage"></i>
       </span>
     </div>
-    <div class="footer2">
-
-      <el-popover placement="top-start" :width="150" trigger="hover">
-        <p slot="reference"> 联系作者|   ©2022-2023 By 小白条<br /> </p>
-        <img
-            src="https://pic.yupi.icu/5563/202312061315664.png"
-            style="height: 100px; width: 100px"
-        />
-      </el-popover>
-      <a href="https://beian.miit.gov.cn">备案号:浙ICP备2023044565号-2 | </a>
-      <a href="https://beian.mps.gov.cn/#/query/webSearch">
-        <img
-            src="https://xxx.xiaobaitiao.icu/img/icu/202312211243636.png"
-            style="height: 16px; width: 16px; margin: 5px 0px 0px 5px"
-        />
-        浙公网安备33028202001002号
-      </a>
-    </div>
   </div>
 </template>
 
@@ -69,8 +51,8 @@ export default {
     return {
       //登录表单
       loginForm: {
-        username: "相思断红肠11",
-        password: "1234567",
+        username: "",
+        password: "",
       },
       userInfo:{
 

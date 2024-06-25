@@ -135,10 +135,11 @@
             <el-table-column prop="core" label="CORE" min-width="35"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS"min-width="40"></el-table-column>
             <el-table-column prop="abbreviation" label="简称" min-width="40"></el-table-column>
-            <el-table-column prop="fullName" label="全称" min-width="200"></el-table-column>
+            <el-table-column prop="name" label="全称" min-width="200"></el-table-column>
             <el-table-column prop="deadline" label="截稿日期" min-width="70"></el-table-column>
             <el-table-column prop="notification" label="通知日期" min-width="70"></el-table-column>
-            <el-table-column prop="conferenceDate" label="会议日期" min-width="70"></el-table-column>
+            <el-table-column prop="meeting" label="会议日期" min-width="70"></el-table-column>
+            <el-table-column prop="session" label="届数" min-width="70"></el-table-column>
           </el-table>
           <el-pagination
               @size-change="handleSizeChange_view_conference"

@@ -118,9 +118,9 @@
   <el-pagination
       @size-change="handleSizeChange_TableData2"
       @current-change="handleCurrentTableData2"
-      :current-page="queryInfo2.pageNum"
+      :current-page="queryInfo2.currentpage"
       :page-sizes="[3, 5, 7, 10]"
-      :page-size="queryInfo2.pageSize"
+      :page-size="queryInfo2.pageNum"
       layout="total, sizes, prev, pager, next, jumper"
       :total="queryInfo2.total"
   >

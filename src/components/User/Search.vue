@@ -1,12 +1,23 @@
 <template>
   <div>
-    <p>这里是 会议名字 为 {{ this.keyword }} 的项目的详细信息。</p>
-    <p>提示：{{this.$route.query.keyword}}</p>
+
+
+    <div class="outer-container">
+    <div class="inner-container">
+      会议名字含有 <span class="highlight">{{ this.keyword }}</span> 的会议列表
+    </div>
+    </div>
+    <div class="table-hand">
+
+
+
+
     <el-table
         :data="currentTableData1"
         height="520"
         border
         style="width: 100%; font-size: 14px"
+        :header-cell-style="{background:'#DEE1E7','font-size':'15px','font-weight':'400',color:'#252525',height:'60px'}"
         :default-sort="{ prop: 'message_date', order: 'ascending' }"
         stripe
     >
@@ -44,11 +55,14 @@
         :total="queryInfo1.total"
     >
     </el-pagination>
+    </div>
 
 
-
-
-    <p>这里是 期刊名字 为 {{ this.keyword }} 的项目的详细信息。</p>
+    <div class="outer-container">
+      <div class="inner-container">
+        会议名字含有 <span class="highlight">{{ this.keyword }}</span> 的期刊列表
+      </div>
+    </div>
     <el-table
         :data="currentTableData2"
         height="520"
@@ -58,6 +72,7 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
+        :header-cell-style="{background:'#DEE1E7','font-size':'15px','font-weight':'400',color:'#252525',height:'60px'}"
         id="pdfDom"
         :default-sort="{ prop: 'message_date', order: 'ascending' }"
         stripe
@@ -222,4 +237,51 @@ export default{
 
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+.table-hand{
+
+
+
+}
+.outer-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 15vh;
+  background-color: #f0f2f5; /* 背景颜色，可以根据需要调整 */
+}
+
+.inner-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items:flex-start;
+  background-color: #fff; /* 内部容器背景颜色 */
+  padding: 10px; /* 内部容器内边距 */
+  border-radius: 8px; /* 内部容器圆角 */
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+.tishi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  background-color: lightblue;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+  text-align: center; /* 水平居中 */
+
+}
+
+.tishi:hover {
+  transform: translateY(-10px); /* 悬停时上移 */
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.2); /* 悬停时阴影效果 */
+}
+
+.highlight {
+  color: lightcoral; /* 关键词颜色设置为白色 */
+  //background-color: #000; /* 添加背景色以确保白色文字可见，可以根据需要调整 */
+  //padding: 2px 4px; /* 可选：添加一些内边距使关键词更加明显 */
+}
+</style>

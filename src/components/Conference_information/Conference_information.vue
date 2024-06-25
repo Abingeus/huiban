@@ -142,7 +142,6 @@ export default {
     },
     async participate() {
       // Add your participate logic here
-      this.$message.success('参加成功');
       const params = new URLSearchParams();
       params.append("conferenceName", this.getname);
 

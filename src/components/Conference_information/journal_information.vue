@@ -1,30 +1,94 @@
-<!--<template>-->
-<!--  <div>-->
-<!--    <h1>详细信息</h1>-->
-<!--    <p>这里是 名字 为 {{ name }} 的项目的详细信息。</p>-->
-<!--    &lt;!&ndash; 根据实际情况显示详细信息 &ndash;&gt;-->
-<!--  </div>-->
-<!--</template>-->
-
 <template>
   <div class="conference-information">
     <h1>{{ name }}</h1>
-    <a :href="url" target="_blank">{{ url }}</a>
-    <p>截稿日期: {{ deadline }}</p>
-    <p>issue: {{ issue }}</p>
-    <p>影响因子: {{ ifactor }}</p>
-    <p>出版社: {{ publisher }}</p>
-    <p>浏览量: {{ viewCount }}</p>
-    <div>
-      <span>CCF: {{ ccf }}</span>
+    <a :href="url" target="_blank" class="conference-link">{{ url }}</a>
+    <p class="conference-detail">截稿日期: <span>{{ deadline }}</span></p>
+    <p class="conference-detail">Issue: <span>{{ issue }}</span></p>
+    <p class="conference-detail">影响因子: <span>{{ ifactor }}</span></p>
+    <p class="conference-detail">出版社: <span>{{ publisher }}</span></p>
+    <p class="conference-detail" v-if="viewCount !== null && viewCount !== undefined">浏览量: <span class="tag">{{ viewCount }}</span></p>
+    <div class="conference-ccf">
+      <span class="tag">CCF: {{ ccf }}</span>
     </div>
     <el-button type="primary" @click="handleFollow">我要关注</el-button>
-    <el-button type="success" @click="participate">我要参加</el-button>
-    <el-button type="warn" v-if="this.flag === 1" @click="update">我要修改</el-button>
+    <!-- <el-button type="success" @click="participate">我要参加</el-button> -->
+    <el-button type="warn" v-if="flag === 1" @click="update">我要修改</el-button>
   </div>
-
-
 </template>
+
+<style scoped>
+.conference-information {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  max-width: 1200px; /* Increased width */
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.conference-link {
+  display: block;
+  font-size: 1rem;
+  color: #1e90ff;
+  text-decoration: none;
+  margin-bottom: 20px;
+  word-break: break-all;
+}
+
+.conference-link:hover {
+  text-decoration: underline;
+}
+
+.conference-detail {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.conference-detail span {
+  font-weight: bold;
+}
+
+.conference-ccf {
+  margin: 15px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #eef;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.el-button {
+  margin-top: 20px;
+}
+
+.el-button[type="primary"] {
+  background-color: #409eff;
+  border-color: #409eff;
+  color: white;
+}
+
+.el-button[type="warn"] {
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+</style>
+
 
 <script>
 import axios from "axios";
@@ -121,34 +185,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.conference-information {
-  text-align: center; /* 使所有文本居中对齐 */
-  margin: 20px auto; /* 上下外边距 */
-  padding: 20px; /* 内边距 */
-  background-color: #fff; /* 背景颜色 */
-  border-radius: 10px; /* 圆角 */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-  max-width: 1000px; /* 最大宽度 */
-  min-width: 500px; /* 最大宽度 */
-}
 
-.conference-information a {
-  display: block; /* 将链接显示为块级元素 */
-  color: #3498db; /* 链接颜色 */
-  margin-bottom: 10px; /* 底部外边距 */
-  text-decoration: none; /* 去掉下划线 */
-}
-
-.conference-information a:hover {
-  text-decoration: underline; /* 悬停时添加下划线 */
-}
-
-.conference-information p {
-  margin: 5px 0; /* 上下外边距 */
-}
-
-.conference-information .el-button {
-  margin: 10px 5px; /* 按钮间距 */
-}
-</style>

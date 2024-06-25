@@ -29,15 +29,15 @@
             >
           </download-excel>
         </el-col>
-        <el-col :span="2" style="float: right">
-          <el-button
-            type="primary"
-            class="el-icon-printer"
-            size="mini"
-            @click="downLoad"
-            >导出PDF</el-button
-          >
-        </el-col>
+<!--        <el-col :span="2" style="float: right">-->
+<!--          <el-button-->
+<!--            type="primary"-->
+<!--            class="el-icon-printer"-->
+<!--            size="mini"-->
+<!--            @click="downLoad"-->
+<!--            >导出PDF</el-button-->
+<!--          >-->
+<!--        </el-col>-->
         <el-col :span="2" style="float: right">
          
          <el-button type="success" class="el-icon-full-screen" size="mini" @click="fullScreen"
@@ -60,13 +60,30 @@
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
 <!--                  <el-table-column prop="id" label="#" min-width="5"></el-table-column>-->
-                  <el-table-column prop="name" label="会议" min-width="70"></el-table-column>
-                  <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
+                  <el-table-column label="全称" min-width="200">
+                    <template v-slot="{ row }">
+                      <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+                        {{ row.name }}
+                      </router-link>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="viewCount" label="浏览" min-width="40"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
                     <router-link to="/top_menu/conference/viewed" class="card-link">
-                      更多97
+                      更多
                     </router-link>
                   </h3>
                 </el-col>
@@ -81,15 +98,32 @@
                           element-loading-text="拼命加载中"
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
-                  <el-table-column prop="id" label="#" min-width="10"></el-table-column>
-                  <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
-                  <el-table-column prop="focusCount" label="关注" min-width="20"></el-table-column>
+<!--                  <el-table-column prop="id" label="#" min-width="10"></el-table-column>-->
+                  <el-table-column label="全称" min-width="200">
+                    <template v-slot="{ row }">
+                      <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+                        {{ row.name }}
+                      </router-link>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="focusCount" label="关注" min-width="40"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
 
                     <router-link to="/top_menu/conference/tracked" class="card-link">
-                      更多1
+                      更多
                     </router-link>
                   </h3>
                 </el-col>
@@ -105,13 +139,30 @@
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
                   <el-table-column prop="id" label="#" min-width="10"></el-table-column>
-                  <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
-                  <el-table-column prop="attendCount" label="参加" min-width="20"></el-table-column>
+                  <el-table-column label="全称" min-width="200">
+                    <template v-slot="{ row }">
+                      <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+                        {{ row.name }}
+                      </router-link>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="attendCount" label="参加" min-width="40"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
                     <router-link to="/top_menu/conference/attend" class="card-link">
-                      更多1
+                      更多
                     </router-link>
                   </h3>
                 </el-col>
@@ -131,15 +182,32 @@
                         element-loading-text="拼命加载中"
                         element-loading-spinner="el-icon-loading"
                         element-loading-background="rgba(0, 0, 0, 0.8)">
-                <el-table-column prop="id" label="#" min-width="10"></el-table-column>
-                <el-table-column prop="name" label="期刊" min-width="50"></el-table-column>
-                <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
+<!--                <el-table-column prop="id" label="#" min-width="10"></el-table-column>-->
+                <el-table-column label="全称" min-width="250">
+                  <template v-slot="{ row }">
+                    <router-link :to="{
+        name: 'journal_information',
+        query: {
+          name: row.name,
+          ccf: row.ccf,
+          issue: row.issue,
+          deadline: row.deadline,
+          ifactor: row.ifactor,
+          publisher: row.publisher,
+          viewCount: row.viewCount,
+        }
+      }">
+                      {{ row.name }}
+                    </router-link>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="viewCount" label="浏览" min-width="40"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                 <h3 class="card-title">
                   <router-link to="/top_menu/journals/viewed" class="card-link">
-                    更多1
+                    更多
                   </router-link>
                 </h3>
               </el-col>
@@ -154,15 +222,32 @@
                      element-loading-background="rgba(0, 0, 0, 0.8)">
               <h3>最多关注</h3>
               <el-table :data="journals_focus">
-                <el-table-column prop="id" label="#" min-width="10"></el-table-column>
-                <el-table-column prop="name" label="期刊" min-width="50"></el-table-column>
-                <el-table-column prop="focusCount" label="关注" min-width="20"></el-table-column>
+<!--                <el-table-column prop="id" label="#" min-width="10"></el-table-column>-->
+                <el-table-column label="全称" min-width="250">
+                  <template v-slot="{ row }">
+                    <router-link :to="{
+        name: 'journal_information',
+        query: {
+          name: row.name,
+          ccf: row.ccf,
+          issue: row.issue,
+          deadline: row.deadline,
+          ifactor: row.ifactor,
+          publisher: row.publisher,
+          viewCount: row.viewCount,
+        }
+      }">
+                      {{ row.name }}
+                    </router-link>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="focusCount" label="关注" min-width="40"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                 <h3 class="card-title">
                   <router-link to="/top_menu/journals/tracked" class="card-link">
-                    更多13
+                    更多
                   </router-link>
                 </h3>
               </el-col>
