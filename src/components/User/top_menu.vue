@@ -10,7 +10,7 @@
 
         <el-menu :default-actibe="activePath_top" class="el-menu-demo" mode="horizontal" >
         <el-menu-item index="home" @click="saveNavState_top('home')"> 首页</el-menu-item>
-        <el-menu-item index="AdminManage" v-if="user.isAdmin===1" @click="saveNavState_top('AdminManage')"> 管理页面</el-menu-item>
+        <el-menu-item index="AdminManage" v-if="this.flag===1" @click="saveNavState_top('AdminManage')"> 管理页面</el-menu-item>
         <el-menu-item index="conference" @click="saveNavState_top('conference')"> 会议</el-menu-item>
 
         <el-menu-item index="journals" @click="saveNavState_top('journals')"> 期刊</el-menu-item>
@@ -145,11 +145,14 @@ export default {
         updateTime: "",
         isAdmin:Number,
       },
+      flag:0,
     };
   },
   async created() {
     // this.getMenuList();
     await this.getUserInformatonrmaton();
+    const Admin=localStorage.getItem('isAdmin');
+    this.flag=parseInt(Admin);
     this.activePath = window.sessionStorage.getItem("activePath");
     this.activePath_top = window.sessionStorage.getItem("activePath_top");
     // console.log(this.activePath)
@@ -157,6 +160,8 @@ export default {
     const stringId = window.sessionStorage.getItem("userId");
     const id = parseInt(stringId);
     this.user.userId = id;
+    console.log("检测isAdmin");
+    console.log(this.user.isAdmin);
 
 
 
@@ -181,6 +186,11 @@ export default {
     saveNavState(activePath) {
       // console.log("first")
       window.sessionStorage.setItem("activePath", activePath);
+      if(activePath=="Login")
+      {
+        localStorage.removeItem('jwtToken');
+      };
+
       this.$router.push({ path: `/${activePath}` });
       this.activePath = activePath;
       // console.log(this.activePath);

@@ -57,9 +57,9 @@
                           element-loading-text="拼命加载中"
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
-                  <el-table-column prop="id" label="#" width="50"></el-table-column>
-                  <el-table-column prop="name" label="会议"></el-table-column>
-                  <el-table-column prop="viewCount" label="浏览"></el-table-column>
+                  <el-table-column prop="id" label="#" min-width="10"></el-table-column>
+                  <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
+                  <el-table-column prop="viewCount" label="浏览" min-width="10"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -79,9 +79,9 @@
                           element-loading-text="拼命加载中"
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
-                  <el-table-column prop="id" label="#" width="50"></el-table-column>
-                  <el-table-column prop="name" label="会议"></el-table-column>
-                  <el-table-column prop="focusCount" label="关注"></el-table-column>
+                  <el-table-column prop="id" label="#" min-width="10"></el-table-column>
+                  <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
+                  <el-table-column prop="focusCount" label="关注" min-width="10"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -102,9 +102,9 @@
                           element-loading-text="拼命加载中"
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
-                  <el-table-column prop="id" label="#" width="50"></el-table-column>
-                  <el-table-column prop="name" label="会议"></el-table-column>
-                  <el-table-column prop="attendCount" label="参加"></el-table-column>
+                  <el-table-column prop="id" label="#" min-width="10"></el-table-column>
+                  <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
+                  <el-table-column prop="attendCount" label="参加" min-width="10"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -129,9 +129,9 @@
                         element-loading-text="拼命加载中"
                         element-loading-spinner="el-icon-loading"
                         element-loading-background="rgba(0, 0, 0, 0.8)">
-                <el-table-column prop="id" label="#" width="50"></el-table-column>
-                <el-table-column prop="name" label="期刊"></el-table-column>
-                <el-table-column prop="viewCount" label="浏览"></el-table-column>
+                <el-table-column prop="id" label="#" min-width="10"></el-table-column>
+                <el-table-column prop="name" label="期刊" min-width="50"></el-table-column>
+                <el-table-column prop="viewCount" label="浏览" min-width="10"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
@@ -152,9 +152,9 @@
                      element-loading-background="rgba(0, 0, 0, 0.8)">
               <h3>最多关注</h3>
               <el-table :data="journals_focus">
-                <el-table-column prop="id" label="#" width="50"></el-table-column>
-                <el-table-column prop="name" label="期刊"></el-table-column>
-                <el-table-column prop="focusCount" label="关注"></el-table-column>
+                <el-table-column prop="id" label="#" min-width="10"></el-table-column>
+                <el-table-column prop="name" label="期刊" min-width="50"></el-table-column>
+                <el-table-column prop="focusCount" label="关注" min-width="10"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
@@ -237,8 +237,8 @@ export default {
       async coferencebyfocus()
       {
         const {data:data} = await axios.get("/api/conference/conferenceRankedByFocus");
-        this.conferences_focus=data.data;
-        this.conferences=data.data;
+        this.conferences_focus=data.data.slice(0, 4);
+        this.conferences=data.data.slice(0, 4);
         this.loading=false;
         console.log(data.data);
 
@@ -246,7 +246,7 @@ export default {
       async coferencebyattend()
       {
         const {data:data} = await axios.get("/api/conference/conferenceRankedByAttend");
-        this. conferences_attend=data.data;
+        this. conferences_attend=data.data.slice(0, 4);
         this.loading=false;
         console.log(data.data);
 
@@ -254,7 +254,7 @@ export default {
       async coferencebyview()
       {
         const {data:data} = await axios.get("/api/conference/conferenceRankedByViewCount");
-        this. conferences_view=data.data;
+        this. conferences_view=data.data.slice(0, 4);
         this.loading=false;
         console.log(data.data);
 
@@ -262,7 +262,7 @@ export default {
       async journalbyview()
       {
         const {data:data} = await axios.get("/api/journal/journalRankedByViewCount");
-        this.journals_view=data.data;
+        this.journals_view=data.data.slice(0, 4);
         this.loading=false;
         console.log(data.data);
 
@@ -270,7 +270,7 @@ export default {
       async journalbyfocus()
       {
         const {data:data} = await axios.get("/api/journal/journalRankedByFocus");
-        this.journals_focus=data.data;
+        this.journals_focus=data.data.slice(0, 4);
         this.loading=false;
         console.log(data.data);
 
