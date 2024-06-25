@@ -23,37 +23,37 @@
     <el-card shadow="always">
       <!-- 搜索内容和导出区域 -->
       <el-row>
-        <el-col :span="6"
-          >条件搜索:
-          <el-select
-            v-model="queryInfo.condition"
-            filterable
-            placeholder="请选择"
-            style="margin-left: 15px"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="4">
-          <el-input
-            placeholder="请输入内容"
-            v-model="queryInfo.query"
-            class="input-with-select"
-            @keyup.enter.native="searchMessageByPage"
-          >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="searchMessageByPage"
-            ></el-button>
-          </el-input>
-        </el-col>
+<!--        <el-col :span="6"-->
+<!--          >条件搜索:-->
+<!--          <el-select-->
+<!--            v-model="queryInfo.condition"-->
+<!--            filterable-->
+<!--            placeholder="请选择"-->
+<!--            style="margin-left: 15px"-->
+<!--          >-->
+<!--            <el-option-->
+<!--              v-for="item in options"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </el-col>-->
+<!--        <el-col :span="4">-->
+<!--          <el-input-->
+<!--            placeholder="请输入内容"-->
+<!--            v-model="queryInfo.query"-->
+<!--            class="input-with-select"-->
+<!--            @keyup.enter.native="searchMessageByPage"-->
+<!--          >-->
+<!--            <el-button-->
+<!--              slot="append"-->
+<!--              icon="el-icon-search"-->
+<!--              @click="searchMessageByPage"-->
+<!--            ></el-button>-->
+<!--          </el-input>-->
+<!--        </el-col>-->
         <el-col :span="2" style="float: right">
           <download-excel
             class="export-excel-wrapper"
@@ -68,15 +68,15 @@
             </el-button>
           </download-excel>
         </el-col>
-        <el-col :span="2" style="float: right">
-          <el-button
-            type="primary"
-            class="el-icon-printer"
-            size="mini"
-            @click="downLoad"
-            >导出PDF
-          </el-button>
-        </el-col>
+<!--        <el-col :span="2" style="float: right">-->
+<!--          <el-button-->
+<!--            type="primary"-->
+<!--            class="el-icon-printer"-->
+<!--            size="mini"-->
+<!--            @click="downLoad"-->
+<!--            >导出PDF-->
+<!--          </el-button>-->
+<!--        </el-col>-->
         <el-col :span="2" style="float: right">
           <el-button
             type="success"
@@ -89,7 +89,7 @@
       </el-row>
       <!-- 表格区域 -->
       <el-table
-        :data="tableData"
+        :data="currentTable"
         height="520"
         border
         style="width: 100%; font-size: 14px"
@@ -102,14 +102,14 @@
         stripe
       >
         <el-table-column
-          prop="message_number"
+          prop="id"
           label="#"
           sortable
         ></el-table-column>
-        <el-table-column prop="message_date" label="消息日期"></el-table-column>
-        <el-table-column prop="message_category" label="消息类型"></el-table-column>
+        <el-table-column prop="time" label="消息日期"></el-table-column>
+        <el-table-column prop="type" label="消息类型"></el-table-column>
 <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
-        <el-table-column prop="detail" label="内容"></el-table-column>
+        <el-table-column prop="content" label="内容"></el-table-column>
         <!-- 添加自定义列 -->
         <el-table-column label="详细信息">
           <template #default="scope">
@@ -125,7 +125,7 @@
         :page-sizes="[1, 2, 3, 4, 5]"
         :page-size="this.queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="this.total"
+        :total="this.queryInfo.total"
       >
       </el-pagination>
     </el-card>
@@ -133,15 +133,16 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       tableData: [],
+      currentTable:[],
       queryInfo: {
-        pageNum: 1,
-        pageSize: 5,
-        condition: "",
-        query: "",
+        pageNum: 7,
+        currentpage: 1,
       },
       total: 0,
       searchQuery:"",
@@ -150,47 +151,38 @@ export default {
     };
   },
   created() {
-    this.searchMessageByPage();
+    this.getMessageByPage();
   },
   methods: {
-    // handleFocus(event) {
-    //   event.target.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
-    // },
-    // handleBlur(event) {
-    //   event.target.style.boxShadow = 'none';
-    // },
-    handleSearch(){
-      this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
+    updateCurrentTableData_message() {
+      const start = (this.queryInfo.currentpage - 1) * this.queryInfo.pageNum;
+      const end = Math.min(start + this.queryInfo.pageNum, this.tableData.length);
+      this.currentTable = this.tableData.slice(start, end);
+      this.loading = false;
+      console.log("longding1");
+      console.log(this.loading1);
     },
     handleSizeChange(val) {
       this.queryInfo.pageSize = val;
-
-      this.searchMessageByPage();
+      this.updateCurrentTableData_message();
     },
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val;
+      this.updateCurrentTableData_message();
 
-      this.searchMessageByPage();
     },
-    async searchMessageByPage() {
+    async getMessageByPage() {
       this.loading = true;
-      const { data: res } = await this.$http.post(
-        "user/search_message_page",
-        this.queryInfo
-      );
+      const { data: res } = await axios.get(
+        "/api/message/getAllMessage",);
       this.tableData = [];
-      if (res.status !== 200) {
-        this.total = 0;
-        this.loading = false;
-        return this.$message.error(res.msg);
+      if (res.code === 0) {
+        this.tableData = res.data;
+        this.queryInfo.total = parseInt(res.data.total);
+        this.updateCurrentTableData_message();
       }
-      this.$message.success({
-        message: res.msg,
-        duration: 1000,
-      });
-      this.loading = false;
-      this.tableData = res.data.records;
-      this.total = parseInt(res.data.total);
+
+
     },
     downLoad() {
       this.getPdf(this.title); //参数是下载的pdf文件名

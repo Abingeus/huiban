@@ -14,30 +14,40 @@
         stripe
     >
 
-      <el-table-column
-          prop="id"
-          label="#"
-          sortable
-      ></el-table-column>
-      <el-table-column prop="ccf" label="CCF"></el-table-column>
-      <el-table-column label="全称">
+<!--      <el-table-column-->
+<!--          prop="id"-->
+<!--          label="#"-->
+<!--          sortable-->
+<!--      ></el-table-column>-->
+      <el-table-column prop="ccf" label="CCF" min-width="25"></el-table-column>
+      <el-table-column label="全称" min-width="200">
         <template v-slot="{ row }">
-          <router-link :to="{ name: 'conference_information', query: { name: row.name } }">
+          <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
             {{ row.name }}
           </router-link>
         </template>
       </el-table-column>
+      <el-table-column prop="core" label="CORE" min-width="50"></el-table-column>
+      <el-table-column prop="qualis" label="QULIS" min-width="50"></el-table-column>
 
-      <el-table-column prop="core" label="CORE"></el-table-column>
-      <el-table-column prop="qualis" label="QULIS"></el-table-column>
-
-      <el-table-column prop="deadline" label="截稿日期"></el-table-column>
-      <el-table-column prop="notifation" label="通知日期"></el-table-column>
-      <el-table-column prop="meeting" label="会议日期"></el-table-column>
-      <el-table-column prop="address" label="会议地址"></el-table-column>
-      <el-table-column prop="session" label="届"></el-table-column>
-      <el-table-column prop="viewCount" label="浏览量"></el-table-column>
-      <el-table-column label="取消关注">
+      <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
+      <el-table-column prop="notifation" label="通知日期" min-width="50"></el-table-column>
+      <el-table-column prop="meeting" label="会议日期" min-width="50"></el-table-column>
+      <el-table-column prop="address" label="会议地址" min-width="150"></el-table-column>
+      <el-table-column prop="session" label="届" min-width="30"></el-table-column>
+      <el-table-column prop="viewCount" label="浏览量" min-width="30"></el-table-column>
+      <el-table-column label="删除会议">
         <template v-slot:="scope">
           <el-button @click="DeleteConference(scope.$index, scope.row.name)" type="danger" icon="el-icon-delete" circle></el-button>
         </template>

@@ -47,6 +47,7 @@ const routes = [
       {
         path: "home",
         component:()=>import("@/components/Home/Home.vue"),
+        redirect: "/top_menu/home/index",
         children: [
 
           {
@@ -88,7 +89,15 @@ const routes = [
             component: () => import("@/components/Admin/DeleteConference.vue"),
           },
           {
+            path: "ChangeConference",
+            component: () => import("@/components/Admin/ChangeConference.vue"),
+          },
+          {
             path: "ChangeJournal",
+            component: () => import("@/components/Admin/UpdateJournal.vue"),
+          },
+          {
+            path: "xiugaiJournal",
             component: () => import("@/components/Admin/ChangeJournal.vue"),
           },
           {
@@ -228,10 +237,7 @@ const routes = [
         path: "/statementsearch",
         component: () => import("@/components/Admin/StatementSearch.vue"),
       },
-      {
-        path: "/statementrulemanage",
-        component: () => import("@/components/Admin/StatementRuleManage.vue"),
-      },
+
       {
         path: "/bookadminmanage",
         component: () => import("@/components/Admin/AddConference.vue"),

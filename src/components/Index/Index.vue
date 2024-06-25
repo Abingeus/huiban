@@ -1,9 +1,16 @@
 <template>
   <div class="indexs">
-    <div>shiyong</div>
-
-    <div>用户id：{{userInfo.id}}</div>
-    <div>shiyong</div>
+    <div class="search-box">
+      <el-input
+          v-model="searchQuery"
+          placeholder="搜索..."
+          prefix-icon="el-icon-search"
+          clearable
+          @keyup.enter.native="handleSearch"
+      >
+        <el-button slot="append" icon="el-icon-search" class="round-button" @click="handleSearch">搜索</el-button>
+      </el-input>
+    </div>
   </div>
 
 </template>
@@ -26,6 +33,7 @@ export default {
         createTime: "",
         updateTime: "",
       },
+      searchQuery:"",
 
     };
 
@@ -50,7 +58,10 @@ export default {
         console.error("Error fetching user info:", error);
       }
 
-    }
+    },
+    handleSearch(){
+      this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
+    },
   }
 }
 

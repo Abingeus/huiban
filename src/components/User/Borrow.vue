@@ -53,13 +53,15 @@
             <el-col :span="8"> <!-- 每列占据24栅格中的8个栅格 -->
               <el-card class="fixed-height-card">
                 <h3>最多浏览</h3>
-                <el-table :data="conferences_view" style="flex-grow: 1;"v-loading="loading"
+                <el-table :data="conferences_view"
+
+                          style="flex-grow: 1;"v-loading="loading"
                           element-loading-text="拼命加载中"
                           element-loading-spinner="el-icon-loading"
                           element-loading-background="rgba(0, 0, 0, 0.8)">
-                  <el-table-column prop="id" label="#" min-width="10"></el-table-column>
-                  <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
-                  <el-table-column prop="viewCount" label="浏览" min-width="10"></el-table-column>
+<!--                  <el-table-column prop="id" label="#" min-width="5"></el-table-column>-->
+                  <el-table-column prop="name" label="会议" min-width="70"></el-table-column>
+                  <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -81,7 +83,7 @@
                           element-loading-background="rgba(0, 0, 0, 0.8)">
                   <el-table-column prop="id" label="#" min-width="10"></el-table-column>
                   <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
-                  <el-table-column prop="focusCount" label="关注" min-width="10"></el-table-column>
+                  <el-table-column prop="focusCount" label="关注" min-width="20"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -104,7 +106,7 @@
                           element-loading-background="rgba(0, 0, 0, 0.8)">
                   <el-table-column prop="id" label="#" min-width="10"></el-table-column>
                   <el-table-column prop="name" label="会议" min-width="50"></el-table-column>
-                  <el-table-column prop="attendCount" label="参加" min-width="10"></el-table-column>
+                  <el-table-column prop="attendCount" label="参加" min-width="20"></el-table-column>
                 </el-table>
                 <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
                   <h3 class="card-title">
@@ -131,7 +133,7 @@
                         element-loading-background="rgba(0, 0, 0, 0.8)">
                 <el-table-column prop="id" label="#" min-width="10"></el-table-column>
                 <el-table-column prop="name" label="期刊" min-width="50"></el-table-column>
-                <el-table-column prop="viewCount" label="浏览" min-width="10"></el-table-column>
+                <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
@@ -154,7 +156,7 @@
               <el-table :data="journals_focus">
                 <el-table-column prop="id" label="#" min-width="10"></el-table-column>
                 <el-table-column prop="name" label="期刊" min-width="50"></el-table-column>
-                <el-table-column prop="focusCount" label="关注" min-width="10"></el-table-column>
+                <el-table-column prop="focusCount" label="关注" min-width="20"></el-table-column>
 
               </el-table>
               <el-col :span="24"> <!-- 每列占据24栅格中的12个栅格 -->
@@ -246,7 +248,7 @@ export default {
       async coferencebyattend()
       {
         const {data:data} = await axios.get("/api/conference/conferenceRankedByAttend");
-        this. conferences_attend=data.data.slice(0, 4);
+        this.conferences_attend=data.data.slice(0, 4);
         this.loading=false;
         console.log(data.data);
 
@@ -331,7 +333,7 @@ export default {
 
 <style>
 .fixed-height-card {
-  height: 400px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -26,7 +26,7 @@
 
           <h2>关注的会议</h2>
           <el-table :data="currentTableData_foucus_conference"
-                    height="200"
+                    height="500"
                     border
                     style="width: 100%; font-size: 14px"
                     v-loading="loading1"
@@ -68,7 +68,7 @@
           <div class="table-container">
             <h2 style="display: inline-block; margin-right: 10px;">关注的期刊</h2>
             <el-table :data="currentTableData_foucus_journal"
-                      height="200"
+                      height="500"
                       border
                       style="width: 100%; font-size: 14px"
                       v-loading="loading2"
@@ -104,25 +104,25 @@
           </div>
 
 
-          <h2>关注的科研人员</h2>
-          <el-table :data="focusresearcher"
-                    border class="table-container">
-            <el-table-column prop="name" label="姓名"></el-table-column>
-            <el-table-column prop="institution" label="科研机构"></el-table-column>
-            <el-table-column prop="registrationDate" label="注册时间"></el-table-column>
-            <el-table-column prop="activity" label="活跃度"></el-table-column>
-          </el-table>
+<!--          <h2>关注的科研人员</h2>-->
+<!--          <el-table :data="focusresearcher"-->
+<!--                    border class="table-container">-->
+<!--            <el-table-column prop="name" label="姓名"></el-table-column>-->
+<!--            <el-table-column prop="institution" label="科研机构"></el-table-column>-->
+<!--            <el-table-column prop="registrationDate" label="注册时间"></el-table-column>-->
+<!--            <el-table-column prop="activity" label="活跃度"></el-table-column>-->
+<!--          </el-table>-->
 
-          <h2>关注的职位</h2>
-          <el-table :data="positions" border class="table-container">
-            <el-table-column prop="title" label="职位名称"></el-table-column>
-            <el-table-column prop="employer" label="雇主"></el-table-column>
-            <el-table-column prop="location" label="职位地点"></el-table-column>
-          </el-table>
+<!--          <h2>关注的职位</h2>-->
+<!--          <el-table :data="positions" border class="table-container">-->
+<!--            <el-table-column prop="title" label="职位名称"></el-table-column>-->
+<!--            <el-table-column prop="employer" label="雇主"></el-table-column>-->
+<!--            <el-table-column prop="location" label="职位地点"></el-table-column>-->
+<!--          </el-table>-->
 
           <h2>浏览的会议</h2>
           <el-table :data="currentTableData_view_conference"
-                    height="200"
+                    height="500"
                     border
                     style="width: 100%; font-size: 14px"
                     v-loading="loading3"
@@ -154,7 +154,7 @@
 
           <h2>浏览的期刊</h2>
           <el-table :data="currentTableData_view_journal"
-                    height="200"
+                    height="500"
                     border
                     style="width: 100%; font-size: 14px"
                     v-loading="loading4"
@@ -182,7 +182,7 @@
         </el-pagination>
           <h2>参加的会议</h2>
           <el-table :data="currentTableData_attend_journal"
-                    height="200"
+                    height="500"
                     border
                     style="width: 100%; font-size: 14px"
                     v-loading="loading4"

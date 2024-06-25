@@ -57,7 +57,18 @@
         <el-table-column prop="ccf" label="CCF" min-width="25"></el-table-column>
         <el-table-column label="全称" min-width="200">
           <template v-slot="{ row }">
-            <router-link :to="{ name: 'conference_information', query: { name: row.name } }">
+            <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
               {{ row.name }}
             </router-link>
           </template>

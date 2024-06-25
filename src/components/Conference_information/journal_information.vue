@@ -7,28 +7,23 @@
 <!--</template>-->
 
 <template>
-  <div class="conference-layout">
-
-    <el-col :span="20">
-      <el-card>
-        <p>这里是 期刊名字 为 {{ this.getname }} 的项目的详细信息。</p>
-        <el-table border>
-          <el-table-column prop="label" label="Label" width="150"></el-table-column>
-          <el-table-column prop="value" label="Information"></el-table-column>
-        </el-table>
-      </el-card>
-    </el-col>
-
-
-    <el-col :span="4">
-      <div class="actions">
-        <el-button type="primary" @click="handleFollow">我要关注</el-button>
-        <el-button type="success" @click="participate">我要参加</el-button>
-        <el-button type="warn" v-if="this.flag===1" @click="update">我要修改</el-button>
-      </div>
-    </el-col>
-
+  <div class="conference-information">
+    <h1>{{ name }}</h1>
+    <a :href="url" target="_blank">{{ url }}</a>
+    <p>截稿日期: {{ deadline }}</p>
+    <p>issue: {{ issue }}</p>
+    <p>影响因子: {{ ifactor }}</p>
+    <p>出版社: {{ publisher }}</p>
+    <p>浏览量: {{ viewCount }}</p>
+    <div>
+      <span>CCF: {{ ccf }}</span>
+    </div>
+    <el-button type="primary" @click="handleFollow">我要关注</el-button>
+    <el-button type="success" @click="participate">我要参加</el-button>
+    <el-button type="warn" v-if="this.flag === 1" @click="update">我要修改</el-button>
   </div>
+
+
 </template>
 
 <script>
@@ -41,7 +36,13 @@ export default {
         journalName:"",
       },
       flag:0,
-
+      name: this.$route.query.name,
+      deadline: this.$route.query.deadline,
+      issue: this.$route.query.issue,
+      ccf: this.$route.query.ccf,
+      ifactor: this.$route.query.ifactor,
+      publisher: this.$route.query.publisher,
+      viewCount: this.$route.query.viewCount,
 
 
     };
@@ -104,12 +105,50 @@ export default {
           }
       );
 
-    }
-  }
+    },
+    async update() {
+      this.$router.push(
+          {
+            path: "/top_menu/AdminManage/xiugaiJournal",
+            query: {
+              name: this.getname,
+            },
+
+          }
+      );
+    },
+  },
 };
 </script>
 
+<style scoped>
+.conference-information {
+  text-align: center; /* 使所有文本居中对齐 */
+  margin: 20px auto; /* 上下外边距 */
+  padding: 20px; /* 内边距 */
+  background-color: #fff; /* 背景颜色 */
+  border-radius: 10px; /* 圆角 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  max-width: 1000px; /* 最大宽度 */
+  min-width: 500px; /* 最大宽度 */
+}
 
+.conference-information a {
+  display: block; /* 将链接显示为块级元素 */
+  color: #3498db; /* 链接颜色 */
+  margin-bottom: 10px; /* 底部外边距 */
+  text-decoration: none; /* 去掉下划线 */
+}
 
+.conference-information a:hover {
+  text-decoration: underline; /* 悬停时添加下划线 */
+}
 
+.conference-information p {
+  margin: 5px 0; /* 上下外边距 */
+}
 
+.conference-information .el-button {
+  margin: 10px 5px; /* 按钮间距 */
+}
+</style>

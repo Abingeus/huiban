@@ -9,7 +9,7 @@
 
       <el-row>
         <el-col :span="10"
-        >CCF: Conference Rank (A, B, C) from China Computer Federation (2022)
+        >CCF1111111111111: Conference Rank (A, B, C) from China Computer Federation (2022)
         </el-col>
 
         <el-col :span="20"

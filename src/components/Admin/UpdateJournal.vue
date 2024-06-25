@@ -2,44 +2,44 @@
   <el-container class="home-container">
     <!-- 头部区域 -->
 
-<el-main>
-    <el-row>
+    <el-main>
+      <el-row>
+        <el-col :span="10"
+        >CCF: Journal Rank (A, B, C) from China Computer Federation (2022).
+        </el-col>
+
+        <el-col :span="2" style="float: right">
+          <el-button
+              type="success"
+              class="el-icon-full-screen"
+              size="mini"
+              @click="fullScreen"
+          >全屏
+          </el-button>
+        </el-col>
+      </el-row>
       <el-col :span="10"
-      >CCF: Journal Rank (A, B, C) from China Computer Federation (2022).
+      >征稿
       </el-col>
 
-      <el-col :span="2" style="float: right">
-        <el-button
-            type="success"
-            class="el-icon-full-screen"
-            size="mini"
-            @click="fullScreen"
-        >全屏
-        </el-button>
-      </el-col>
-    </el-row>
-  <el-col :span="10"
-  >征稿
-  </el-col>
 
-
-  <el-table
-      :data="currentTableData1"
-      height="520"
-      border
-      style="width: 100%; font-size: 14px"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-      id="pdfDom"
-      :default-sort="{ prop: 'message_date', order: 'ascending' }"
-      stripe
-  >
-    <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
-    <el-table-column label="全称" min-width="50">
-      <template v-slot="{ row }">
-        <router-link :to="{ name: 'journal_information', query: {
+      <el-table
+          :data="currentTableData1"
+          height="520"
+          border
+          style="width: 100%; font-size: 14px"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          id="pdfDom"
+          :default-sort="{ prop: 'message_date', order: 'ascending' }"
+          stripe
+      >
+        <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
+        <el-table-column label="全称" min-width="50">
+          <template v-slot="{ row }">
+            <router-link :to="{ name: 'journal_information', query: {
           name: row.name,
           ccf: row.ccf,
           issue: row.issue,
@@ -47,52 +47,52 @@
           ifactor: row.ifactor,
           publisher: row.publisher
         }}">
-          {{ row.name }}
-        </router-link>
-      </template>
-    </el-table-column>
-    <el-table-column prop="issue" label="Special Issue" min-width="200"></el-table-column>
-    <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
-    <el-table-column prop="ifactor" label="影响因子" min-width="25"></el-table-column>
-    <el-table-column prop="publisher" label="出版商" min-width="50"></el-table-column>
+              {{ row.name }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="issue" label="Special Issue" min-width="200"></el-table-column>
+        <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
+        <el-table-column prop="ifactor" label="影响因子" min-width="25"></el-table-column>
+        <el-table-column prop="publisher" label="出版商" min-width="50"></el-table-column>
 
-  </el-table>
-  <!-- 分页查询区域 -->
-  <el-pagination
-      @size-change="handleSizeChange_TableData1"
-      @current-change="handleCurrentTableData1"
-      :current-page="queryInfo1.currentpage"
-      :page-sizes="[3, 5, 7, 10]"
-      :page-size="queryInfo1.pageNum"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="queryInfo1.total"
-  >
-  </el-pagination>
+      </el-table>
+      <!-- 分页查询区域 -->
+      <el-pagination
+          @size-change="handleSizeChange_TableData1"
+          @current-change="handleCurrentTableData1"
+          :current-page="queryInfo1.currentpage"
+          :page-sizes="[3, 5, 7, 10]"
+          :page-size="queryInfo1.pageNum"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="queryInfo1.total"
+      >
+      </el-pagination>
 
 
 
-  <!-- 表格区域 -->
-  <el-col :span="10"
-  >期刊
-  </el-col>
-  <el-table
-      :data="currentTableData2"
-      height="520"
-      border
-      style="width: 100%; font-size: 14px"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-      id="pdfDom"
-      :default-sort="{ prop: 'message_date', order: 'ascending' }"
-      stripe
-  >
-    <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
-    <el-table-column prop="abbreviation" label="简称" min-width="50"></el-table-column>
-    <el-table-column label="全称" min-width="250">
-      <template v-slot="{ row }">
-        <router-link :to="{
+      <!-- 表格区域 -->
+      <el-col :span="10"
+      >期刊
+      </el-col>
+      <el-table
+          :data="currentTableData2"
+          height="520"
+          border
+          style="width: 100%; font-size: 14px"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          id="pdfDom"
+          :default-sort="{ prop: 'message_date', order: 'ascending' }"
+          stripe
+      >
+        <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
+        <el-table-column prop="abbreviation" label="简称" min-width="50"></el-table-column>
+        <el-table-column label="全称" min-width="250">
+          <template v-slot="{ row }">
+            <router-link :to="{
         name: 'journal_information',
         query: {
           name: row.name,
@@ -104,28 +104,28 @@
           viewCount: row.viewCount,
         }
       }">
-          {{ row.name }}
-        </router-link>
-      </template>
-</el-table-column>
-    <el-table-column prop="ifactor" label="影响因子" min-width="50"></el-table-column>
-    <el-table-column prop="publisher" label="出版商" min-width="80"></el-table-column>
-    <el-table-column prop="issn" label="ISSN" min-width="50"></el-table-column>
-    <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
-    >
-  </el-table>
-  <!-- 分页查询区域 -->
-  <el-pagination
-      @size-change="handleSizeChange_TableData2"
-      @current-change="handleCurrentTableData2"
-      :current-page="queryInfo2.pageNum"
-      :page-sizes="[3, 5, 7, 10]"
-      :page-size="queryInfo2.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="queryInfo2.total"
-  >
-  </el-pagination>
-</el-main>
+              {{ row.name }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="ifactor" label="影响因子" min-width="50"></el-table-column>
+        <el-table-column prop="publisher" label="出版商" min-width="80"></el-table-column>
+        <el-table-column prop="issn" label="ISSN" min-width="50"></el-table-column>
+        <el-table-column prop="viewCount" label="浏览" min-width="20"></el-table-column>
+        >
+      </el-table>
+      <!-- 分页查询区域 -->
+      <el-pagination
+          @size-change="handleSizeChange_TableData2"
+          @current-change="handleCurrentTableData2"
+          :current-page="queryInfo2.pageNum"
+          :page-sizes="[3, 5, 7, 10, 15]"
+          :page-size="queryInfo2.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="queryInfo2.total"
+      >
+      </el-pagination>
+    </el-main>
   </el-container>
 </template>
 
@@ -183,6 +183,9 @@ export default {
       const end = Math.min(start + this.queryInfo2.pageNum, this.tableData2.length);
       this.currentTableData2 = this.tableData2.slice(start, end);
       this.loading1 = false;
+      console.log("currentTableData1");
+      console.log(this.currentTableData1);
+      console.log(this.tableData1);
     },
     handleCurrentTableData2(val) {
       this.queryInfo2.currentpage = val;
