@@ -228,10 +228,10 @@
           name: row.name,
           ccf: row.ccf,
           issue: row.issue,
-          deadline: row.deadline,
+
           ifactor: row.ifactor,
           publisher: row.publisher,
-          viewCount: row.viewCount,
+
         }
       }">
                   {{ row.name }}
@@ -516,9 +516,11 @@ export default {
 
       this.viewJournal = infomation.data;
       this.queryInfo_view_journal.total=infomation.data.length;
+      console.log("浏览的会议i");
+      console.log(infomation);
       this.updateCurrentTableData_view_journal();
       this.loading4=false;
-      console.log(viewConference);
+
     },
     async getUserAttendConference() {
       const {data:infomation} = await axios.get("/api/user/attendConferenceInfo");

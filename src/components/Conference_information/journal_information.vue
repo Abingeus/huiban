@@ -162,7 +162,7 @@ export default {
     },
     async view_journals(){
       const params = new URLSearchParams();
-      params.append("name",  this.getname);
+      params.append("journalName",  this.getname);
       const  {data:responses} = await axios.post("/api/user/viewJournal",params,
           {
             headers: {
@@ -170,6 +170,8 @@ export default {
             }
           }
       );
+      console.log("浏览期刊");
+      console.log(responses);
 
     },
     async update() {
