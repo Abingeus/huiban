@@ -177,6 +177,39 @@ export default {
 .home-container {
   height: 100%;
 }
+.home-container {
+  padding: 20px;
+}
+
+.custom-table .el-table {
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.custom-table .el-table__header-wrapper,
+.custom-table .el-table__body-wrapper {
+  border-radius: 50px;
+}
+
+.custom-table .el-table__header,
+.custom-table .el-table__body {
+  border-radius: 10px;
+}
+
+.custom-table .el-table th,
+.custom-table .el-table td {
+  border: none;
+}
+
+.custom-table .el-table th {
+  background-color: #fafafa;
+}
+
+.custom-table .el-table__body tr:hover {
+  background-color: #f5f7fa;
+}
 
 .el-header {
   background-color: rgb(34, 34, 34);

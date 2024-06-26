@@ -92,6 +92,7 @@
         :data="currentTable"
         height="520"
         border
+        class="custom-table"
         style="width: 100%; font-size: 14px"
         v-loading="loading"
         element-loading-text="拼命加载中"

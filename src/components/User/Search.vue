@@ -26,6 +26,7 @@
         :data="currentTableData1"
         height="520"
         border
+        class="custom-table"
         style="width: 100%; font-size: 14px"
         :header-cell-style="{background:'#DEE1E7','font-size':'15px','font-weight':'400',color:'#252525',height:'60px'}"
         :default-sort="{ prop: 'message_date', order: 'ascending' }"
@@ -77,6 +78,7 @@
         :data="currentTableData2"
         height="520"
         border
+        class="custom-table"
         style="width: 100%; font-size: 14px"
         v-loading="loading"
         element-loading-text="拼命加载中"
@@ -257,6 +259,41 @@ export default{
 
 
 }
+.custom-table .el-table {
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+}
+.el-table{
+  border-radius: 0 0 10px 10px;
+  border-top:1px solid #DEDEDE;
+  border-left:1px solid #DEDEDE;
+  border-bottom:1px solid #DEDEDE;
+}
+.custom-table .el-table__header-wrapper,
+.custom-table .el-table__body-wrapper {
+  border-radius: 10px;
+}
+
+.custom-table .el-table__header,
+.custom-table .el-table__body {
+  border-radius: 10px;
+}
+
+.custom-table .el-table th,
+.custom-table .el-table td {
+  border: none;
+}
+
+.custom-table .el-table th {
+  background-color: #fafafa;
+}
+
+.custom-table .el-table__body tr:hover {
+  background-color: #f5f7fa;
+}
+
 .outer-container {
   display: flex;
   justify-content: flex-start;
