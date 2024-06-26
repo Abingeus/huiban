@@ -54,7 +54,24 @@
 <!--            sortable-->
 <!--        ></el-table-column>-->
 <!--        <el-table-column prop="id" label="ID"  min-width="30"></el-table-column>-->
-        <el-table-column prop="name" label="Name"  min-width="200"> </el-table-column>
+        <el-table-column label="全称" min-width="200">
+          <template v-slot="{ row }">
+            <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+              {{ row.name }}
+            </router-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="abbreviation" label="Abbreviation"  min-width="120"></el-table-column>
         <el-table-column prop="ccf" label="CCF"  min-width="50"></el-table-column>
         <el-table-column prop="core" label="Core" min-width="60"></el-table-column>
