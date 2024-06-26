@@ -288,7 +288,7 @@
             </el-table-column>
             <el-table-column prop="deadline" label="截稿日期" min-width="70"></el-table-column>
             <el-table-column prop="notification" label="通知日期" min-width="70"></el-table-column>
-            <el-table-column prop="conferenceDate" label="会议日期" min-width="70"></el-table-column>
+            <el-table-column prop="meeting" label="会议日期" min-width="70"></el-table-column>
             <el-table-column label="取消参加" min-width="40">
               <template v-slot:="scope">
                 <el-button @click="DeleteAttend(scope.$index, scope.row.name)" type="danger" icon="el-icon-delete" circle></el-button>
