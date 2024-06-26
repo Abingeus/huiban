@@ -54,19 +54,19 @@
 <!--            ></el-button>-->
 <!--          </el-input>-->
 <!--        </el-col>-->
-        <el-col :span="2" style="float: right">
-          <download-excel
-            class="export-excel-wrapper"
-            :data="tableData"
-            :fields="json_fields"
-            :header="title"
-            name="test.xls"
-          >
-            <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
-            <el-button type="primary" class="el-icon-printer" size="mini"
-              >导出Excel
-            </el-button>
-          </download-excel>
+<!--        <el-col :span="2" style="float: right">-->
+<!--          <download-excel-->
+<!--            class="export-excel-wrapper"-->
+<!--            :data="tableData"-->
+<!--            :fields="json_fields"-->
+<!--            :header="title"-->
+<!--            name="test.xls"-->
+<!--          >-->
+<!--            &lt;!&ndash; 上面可以自定义自己的样式，还可以引用其他组件button &ndash;&gt;-->
+<!--            <el-button type="primary" class="el-icon-printer" size="mini"-->
+<!--              >导出Excel-->
+<!--            </el-button>-->
+<!--          </download-excel>-->
         </el-col>
 <!--        <el-col :span="2" style="float: right">-->
 <!--          <el-button-->
