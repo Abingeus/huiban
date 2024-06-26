@@ -52,7 +52,14 @@ const routes = [
 
           {
             path: "index",
-            component: () => import("@/components/Index/Index.vue"),
+            component: () => import("@/components/User/Borrow.vue"),
+            // chilrdren:[
+            //   {
+            //     path: "borrow",
+            //     component: () => import("@/components/User/Borrow_index.vue"),
+            //   },
+            //
+            // ]
           },
           {
             path: "to_index",

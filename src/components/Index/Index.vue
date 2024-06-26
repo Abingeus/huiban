@@ -15,6 +15,7 @@
                    :particleSize="4" linesColor="#8DD1FE" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150"
                    :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
     </vue-particles>
+    <router-view></router-view>
   </div>
 
 </template>

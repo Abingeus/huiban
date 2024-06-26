@@ -43,7 +43,24 @@
             <el-table-column prop="core" label="CORE" min-width="35"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS" min-width="100"></el-table-column>
             <el-table-column prop="abbreviation" label="简称" min-width="50"></el-table-column>
-            <el-table-column prop="name" label="全称" min-width="200"></el-table-column>
+            <el-table-column label="全称" min-width="200">
+              <template v-slot="{ row }">
+                <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+                  {{ row.name }}
+                </router-link>
+              </template>
+            </el-table-column>
             <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
             <el-table-column prop="notification" label="通知日期" min-width="50"></el-table-column>
             <el-table-column prop="meeting" label="会议日期" min-width="50"></el-table-column>
@@ -83,7 +100,24 @@
                       stripe>
               <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
               <el-table-column prop="abbreviation" label="简称" min-width="30"></el-table-column>
-              <el-table-column prop="name" label="全称" min-width="200"></el-table-column>
+              <el-table-column label="全称" min-width="250">
+                <template v-slot="{ row }">
+                  <router-link :to="{
+        name: 'journal_information',
+        query: {
+          name: row.name,
+          ccf: row.ccf,
+          issue: row.issue,
+          deadline: row.deadline,
+          ifactor: row.ifactor,
+          publisher: row.publisher,
+          viewCount: row.viewCount,
+        }
+      }">
+                    {{ row.name }}
+                  </router-link>
+                </template>
+              </el-table-column>
               <el-table-column prop="ifactor" label="影响因子" min-width="30"></el-table-column>
               <el-table-column prop="publisher" label="出版商" min-width="30"></el-table-column>
               <el-table-column prop="viewCount" label="浏览量" min-width="20"></el-table-column>
@@ -139,7 +173,24 @@
             <el-table-column prop="core" label="CORE" min-width="35"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS"min-width="40"></el-table-column>
             <el-table-column prop="abbreviation" label="简称" min-width="40"></el-table-column>
-            <el-table-column prop="name" label="全称" min-width="200"></el-table-column>
+            <el-table-column label="全称" min-width="200">
+              <template v-slot="{ row }">
+                <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+                  {{ row.name }}
+                </router-link>
+              </template>
+            </el-table-column>
             <el-table-column prop="deadline" label="截稿日期" min-width="70"></el-table-column>
             <el-table-column prop="notification" label="通知日期" min-width="70"></el-table-column>
             <el-table-column prop="meeting" label="会议日期" min-width="70"></el-table-column>
@@ -169,7 +220,24 @@
                     :default-sort="{ prop: 'message_date', order: 'ascending' }"
                     stripe>
             <el-table-column prop="ccf" label="CCF" min-width="25"></el-table-column>
-            <el-table-column prop="name" label="全称" min-width="200"></el-table-column>
+            <el-table-column label="全称" min-width="250">
+              <template v-slot="{ row }">
+                <router-link :to="{
+        name: 'journal_information',
+        query: {
+          name: row.name,
+          ccf: row.ccf,
+          issue: row.issue,
+          deadline: row.deadline,
+          ifactor: row.ifactor,
+          publisher: row.publisher,
+          viewCount: row.viewCount,
+        }
+      }">
+                  {{ row.name }}
+                </router-link>
+              </template>
+            </el-table-column>
             <el-table-column prop="abbreviation" label="简称" min-width="80"></el-table-column>
             <el-table-column prop="ifactor" label="影响因子" min-width="30"></el-table-column>
             <el-table-column prop="publisher" label="出版商" min-width="50"></el-table-column>
@@ -200,7 +268,24 @@
             <el-table-column prop="core" label="CORE" min-width="35"></el-table-column>
             <el-table-column prop="qualis" label="QUALIS"min-width="40"></el-table-column>
             <el-table-column prop="abbreviation" label="简称" min-width="40"></el-table-column>
-            <el-table-column prop="fullName" label="全称" min-width="200"></el-table-column>
+            <el-table-column label="全称" min-width="200">
+              <template v-slot="{ row }">
+                <router-link :to="{ name: 'conference_information', query: {
+      name: row.name,
+      ccf: row.ccf,
+      core: row.core,
+      qualis: row.qualis,
+      deadline: row.deadline,
+      notifacation: row.notifation,
+      meeting: row.meeting,
+      address: row.address,
+      session: row.session,
+      viewCount: row.viewCount
+    }}">
+                  {{ row.name }}
+                </router-link>
+              </template>
+            </el-table-column>
             <el-table-column prop="deadline" label="截稿日期" min-width="70"></el-table-column>
             <el-table-column prop="notification" label="通知日期" min-width="70"></el-table-column>
             <el-table-column prop="conferenceDate" label="会议日期" min-width="70"></el-table-column>

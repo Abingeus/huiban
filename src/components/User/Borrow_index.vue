@@ -422,19 +422,8 @@
     <!-- 面包屑导航区域 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>首页</el-breadcrumb-item>
-      <el-breadcrumb-item>榜单信息与搜索</el-breadcrumb-item>
+      <el-breadcrumb-item>榜单信息</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="search-box">
-      <el-input
-          v-model="searchQuery"
-          placeholder="搜索..."
-          prefix-icon="el-icon-search"
-          clearable
-          @keyup.enter.native="handleSearch"
-      >
-        <el-button slot="append" icon="el-icon-search" class="round-button" @click="handleSearch">搜索</el-button>
-      </el-input>
-    </div>
     <el-card shadow="always">
       <!-- 搜索内容和导出区域 -->
       <el-row>
@@ -675,7 +664,6 @@ export default {
       conferences_attend: [],
       journals_view: [],
       journals_focus: [],
-      searchQuery:"",
       queryInfo: {
         pageNum: 1,
         pageSize: 5,
@@ -714,9 +702,6 @@ export default {
     this.journalbyfocus();
   },
   methods: {
-    handleSearch(){
-      this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
-    },
     async coferencebyfocus() {
       const { data } = await axios.get("/api/conference/conferenceRankedByFocus");
       this.conferences_focus = data.data;
