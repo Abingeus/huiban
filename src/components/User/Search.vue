@@ -94,7 +94,24 @@
 <!--      ></el-table-column>-->
       <el-table-column prop="ccf" label="CCF" min-width="20"></el-table-column>
       <el-table-column prop="abbreviation" label="简称" min-width="50"></el-table-column>
-      <el-table-column prop="name" label="全称" min-width="250"></el-table-column>
+      <el-table-column label="全称" min-width="250">
+        <template v-slot="{ row }">
+          <router-link :to="{
+        name: 'journal_information',
+        query: {
+          name: row.name,
+          ccf: row.ccf,
+          issue: row.issue,
+          deadline: row.deadline,
+          ifactor: row.ifactor,
+          publisher: row.publisher,
+          viewCount: row.viewCount,
+        }
+      }">
+            {{ row.name }}
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column prop="ifactor" label="影响因子" min-width="50"></el-table-column>
       <el-table-column prop="publisher" label="出版商" min-width="80"></el-table-column>
       <el-table-column prop="issn" label="ISSN" min-width="50"></el-table-column>

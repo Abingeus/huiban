@@ -6,19 +6,23 @@
     <el-container>
       <el-main>
         <div class="table-container">
-          <el-row style="margin-bottom: 10px;">
-            <el-col :span="16">
-              <div>用户名: {{ user.username }} </div>
-              <div>昵称:{{user.nickname}}</div>
-              <div>电子邮件: {{user.email}}</div>
-              <div>科研机构: {{user.organization}}</div>
-              <div>注册时间: {{user.createTime}}</div>
-              <div>活跃度: {{user.userPic}} </div>
+          <el-row style="padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-bottom: 10px; display: flex; flex-direction: column; align-items: center;">
+            <el-col :span="24" style="width: 100%; max-width: 600px;">
+              <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: left;">用户信息</div>
+              <div style="margin-bottom: 5px; text-align: left;"><strong>用户名:</strong> {{ user.username }}</div>
+              <div style="margin-bottom: 5px; text-align: left;"><strong>昵称:</strong> {{ user.nickname }}</div>
+              <div style="margin-bottom: 5px; text-align: left;"><strong>电子邮件:</strong> {{ user.email }}</div>
+              <div style="margin-bottom: 5px; text-align: left;"><strong>科研机构:</strong> {{ user.organization }}</div>
+              <div style="margin-bottom: 5px; text-align: left;"><strong>注册时间:</strong> {{ user.createTime }}</div>
+              <div style="margin-bottom: 5px; text-align: left;"><strong>活跃度:</strong> {{ user.userPic }}</div>
             </el-col>
-            <el-col :span="8">
-              <el-button @click="edit_user()">修改用户信息</el-button>
+            <el-col :span="24" style="display: flex; justify-content: center; margin-top: 20px;">
+              <el-button type="primary" @click="edit_user()" style="font-size: 14px; padding: 10px 20px;">修改用户信息</el-button>
             </el-col>
           </el-row>
+
+
+
 
 
 

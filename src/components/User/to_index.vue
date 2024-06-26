@@ -111,11 +111,11 @@
 <!--        <el-table-column prop="bookLibrary" label="分类"></el-table-column>-->
         <el-table-column prop="content" label="内容"></el-table-column>
         <!-- 添加自定义列 -->
-        <el-table-column label="详细信息">
-          <template #default="scope">
-            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="详细信息">-->
+<!--          <template #default="scope">-->
+<!--            <a href="javascript:;" @click="viewDetails(scope.row)">详情</a>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
       </el-table>
       <!-- 分页查询区域 -->
       <el-pagination
