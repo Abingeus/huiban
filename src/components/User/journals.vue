@@ -73,7 +73,7 @@
 
   <!-- 表格区域 -->
   <el-col :span="10"
-  >期刊
+  >所有期刊
   </el-col>
   <el-table
       :data="currentTableData2"
