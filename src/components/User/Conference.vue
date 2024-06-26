@@ -77,7 +77,7 @@
         <el-table-column prop="qualis" label="QULIS" min-width="50"></el-table-column>
 
         <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
-        <el-table-column prop="notifation" label="通知日期" min-width="50"></el-table-column>
+        <el-table-column prop="notification" label="通知日期" min-width="50"></el-table-column>
         <el-table-column prop="meeting" label="会议日期" min-width="50"></el-table-column>
         <el-table-column prop="address" label="会议地址" min-width="150"></el-table-column>
         <el-table-column prop="session" label="届" min-width="30"></el-table-column>
@@ -117,7 +117,7 @@
         <el-table-column prop="core" label="CORE" min-width="50"></el-table-column>
         <el-table-column prop="qualis" label="QULIS" min-width="50"></el-table-column>
         <el-table-column prop="deadline" label="截稿日期" min-width="50"></el-table-column>
-        <el-table-column prop="notifation" label="通知日期" min-width="50"></el-table-column>
+        <el-table-column prop="notification" label="通知日期" min-width="50"></el-table-column>
         <el-table-column prop="meeting" label="会议日期" min-width="50"></el-table-column>
         <el-table-column prop="address" label="会议地址" min-width="150"></el-table-column>
         <el-table-column prop="session" label="届" min-width="25"></el-table-column>
