@@ -3,6 +3,17 @@
     <!-- 头部区域 -->
 
     <el-main>
+      <div class="search-box">
+        <el-input
+            v-model="searchQuery"
+            placeholder="搜索..."
+            prefix-icon="el-icon-search"
+            clearable
+            @keyup.enter.native="handleSearch"
+        >
+          <el-button slot="append" icon="el-icon-search" class="round-button" @click="handleSearch">搜索</el-button>
+        </el-input>
+      </div>
       <el-row>
         <el-col :span="10"
         >CCF: Journal Rank (A, B, C) from China Computer Federation (2022).
@@ -74,7 +85,7 @@
 
       <!-- 表格区域 -->
       <el-col :span="10"
-      >期刊
+      >所有期刊
       </el-col>
       <el-table
           :data="currentTableData2"
@@ -153,7 +164,7 @@ export default {
         currentpage: 1,
         total: 0,
       },
-
+      searchQuery:"",
       loading: true,
     };
   },
@@ -163,6 +174,9 @@ export default {
 
   },
   methods: {
+    handleSearch() {
+      this.$router.push({ path: '/top_menu/search', query: { keyword: this.searchQuery } });
+    },
     updateCurrentTableData1() {
       const start = (this.queryInfo1.currentpage - 1) * this.queryInfo1.pageNum;
       const end = Math.min(start + this.queryInfo1.pageNum, this.tableData1.length);
