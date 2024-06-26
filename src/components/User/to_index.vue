@@ -154,6 +154,10 @@ export default {
     this.getMessageByPage();
   },
   methods: {
+    handleSearch(){
+
+      this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
+    },
     updateCurrentTableData_message() {
       const start = (this.queryInfo.currentpage - 1) * this.queryInfo.pageNum;
       const end = Math.min(start + this.queryInfo.pageNum, this.tableData.length);

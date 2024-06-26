@@ -1,6 +1,16 @@
 <template>
   <div>
-
+    <div class="search-box">
+      <el-input
+          v-model="searchQuery"
+          placeholder="搜索..."
+          prefix-icon="el-icon-search"
+          clearable
+          @keyup.enter.native="handleSearch"
+      >
+        <el-button slot="append" icon="el-icon-search" class="round-button" @click="handleSearch">搜索</el-button>
+      </el-input>
+    </div>
 
     <div class="outer-container">
     <div class="inner-container">
@@ -135,6 +145,7 @@ export default{
         currentpage: 1,
         total: 0,
       },
+      searchQuery:"",
     }
 
 
@@ -146,6 +157,12 @@ export default{
 
   },
   methods:{
+    handleSearch(){
+      this.keyword=this.searchQuery;
+      this.SearchconferenceByKeyword();
+      this.SearchcjournalByKeyword();
+      // this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
+    },
     updateCurrentTableData1() {
       const start = (this.queryInfo1.currentpage - 1) * this.queryInfo1.pageNum;
       const end = Math.min(start + this.queryInfo1.pageNum, this.tableData1.length);
@@ -239,6 +256,10 @@ export default{
   padding: 10px; /* 内部容器内边距 */
   border-radius: 8px; /* 内部容器圆角 */
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+.search-box {
+  flex: 0 0 25%;
+  position: relative;
 }
 .tishi {
   display: flex;
