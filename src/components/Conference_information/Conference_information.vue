@@ -42,6 +42,7 @@
     <el-button type="primary" @click="handleFollow">我要关注</el-button>
     <el-button type="success" @click="participate">我要参加</el-button>
     <el-button type="warn" v-if="this.flag === 1" @click="update">我要修改</el-button>
+    <el-button type="danger" v-if="this.flag === 1" @click="delete_conference">我要删除</el-button>
   </div>
 </template>
 <!--<template>-->
@@ -179,7 +180,25 @@ export default {
 
           }
       );
-    }
+    },
+    async delete_conference()
+    {
+      const params = new URLSearchParams();
+      params.append("name",  this.getname);
+      const  {data:responses} = await axios.post("/api/admin/deleteConference",params,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          })
+      if(responses.code==0)
+      {
+        this.$message.success("删除成功");
+        this.$router.go(-1);
+
+      }
+      else this.$message.error("删除失败");
+    },
   }
 };
 </script>
@@ -194,6 +213,7 @@ export default {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
   max-width: 1000px; /* 最大宽度 */
   min-width: 500px; /* 最大宽度 */
+  min-width: 500px;
 }
 
 .conference-information a {

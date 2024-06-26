@@ -13,6 +13,7 @@
     <el-button type="primary" @click="handleFollow">我要关注</el-button>
     <!-- <el-button type="success" @click="participate">我要参加</el-button> -->
     <el-button type="warn" v-if="flag === 1" @click="update">我要修改</el-button>
+    <el-button type="danger" v-if="this.flag === 1" @click="delete_jourl">我要删除</el-button>
   </div>
 </template>
 
@@ -21,6 +22,7 @@
   font-family: 'Arial', sans-serif;
   line-height: 1.6;
   max-width: 1200px; /* Increased width */
+  min-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background: #f9f9f9;
@@ -160,7 +162,7 @@ export default {
     },
     async view_journals(){
       const params = new URLSearchParams();
-      params.append("journalName",  this.getname);
+      params.append("name",  this.getname);
       const  {data:responses} = await axios.post("/api/user/viewJournal",params,
           {
             headers: {
@@ -180,6 +182,27 @@ export default {
 
           }
       );
+    },
+    async delete_jourl(){
+      const params = new URLSearchParams();
+      params.append("name",  this.getname);
+      const  {data:responses} = await axios.post("/api/admin/deleteJournal",params,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }
+      );
+      console.log(responses);
+      console.log(this.getname);
+      if(responses.code==0)
+      {
+        this.$message.success("删除成功");
+        this.$router.go(-1);
+
+      }
+      else this.$message.error("删除失败");
+
     },
   },
 };

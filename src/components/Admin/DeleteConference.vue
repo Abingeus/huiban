@@ -1,5 +1,20 @@
 <template>
+  <div>
+
+    <div class="search-box">
+      <el-input
+          v-model="searchQuery"
+          placeholder="搜索..."
+          prefix-icon="el-icon-search"
+          clearable
+          @keyup.enter.native="handleSearch"
+      >
+        <el-button slot="append" icon="el-icon-search" class="round-button" @click="handleSearch">搜索</el-button>
+      </el-input>
+    </div>
+
   <el-container class="home-container">
+
     <el-table
         :data="conferences_focus"
         height="520"
@@ -55,7 +70,7 @@
     </el-table>
 
   </el-container>
-
+  </div>
 </template>
 
 <script>
@@ -67,12 +82,16 @@ export default {
   data() {
     return {
       conferences_focus: [],
+      searchQuery:"",
     };
   },
   created() {
     this.coferencebyfocus();
   },
   methods: {
+    handleSearch(){
+      this.$router.push({path:'/top_menu/search',query:{keyword:this.searchQuery}});
+    },
     async coferencebyfocus()
     {
       const {data:data} = await axios.get("/api/conference/conferenceRankedByFocus");

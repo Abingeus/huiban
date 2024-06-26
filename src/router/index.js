@@ -79,6 +79,7 @@ const routes = [
       {
         path: "AdminManage",
         component: () => import("@/components/Admin/AdminManage.vue"),
+        redirect: "/top_menu/AdminManage/AddConference",
         children: [
           {
             path: "AddConference",
