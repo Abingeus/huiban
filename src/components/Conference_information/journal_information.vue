@@ -180,6 +180,11 @@ export default {
             path: "/top_menu/AdminManage/xiugaiJournal",
             query: {
               name: this.getname,
+              ccf: this.$route.query.ccf || '',
+              issue: this.$route.query.issue || '',
+              deadline: this.$route.query.deadline || '',
+              ifactor: this.$route.query.ifactor || '',
+              publisher: this.$route.query.publisher || '',
             },
 
           }

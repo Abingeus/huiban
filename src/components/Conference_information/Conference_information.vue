@@ -176,6 +176,15 @@ export default {
             path:"/top_menu/AdminManage/ChangeConference",
             query:{
               name:this.getname,
+              ccf: this.$route.query.ccf || '',
+              core: this.$route.query.core || '',
+              qualis: this.$route.query.qualis || '',
+              deadline: this.$route.query.deadline || '',
+              notifacation: this.$route.query.notifation || '',
+              meeting: this.$route.query.meeting || '',
+              address: this.$route.query.address || '',
+              session: this.$route.query.session || '',
+
             },
 
           }
