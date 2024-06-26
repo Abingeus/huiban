@@ -432,19 +432,19 @@
             icon="el-icon-search"
             @click="searchBookBorrowByPage"
         ></el-button>
-        <el-col :span="2" style="float: right">
-          <download-excel
-              class="export-excel-wrapper"
-              :data="tableData"
-              :fields="json_fields"
-              :header="title"
-              name="图书借阅表格.xls"
-          >
-            <el-button type="primary" class="el-icon-printer" size="mini"
-            >导出Excel</el-button
-            >
-          </download-excel>
-        </el-col>
+<!--        <el-col :span="2" style="float: right">-->
+<!--          <download-excel-->
+<!--              class="export-excel-wrapper"-->
+<!--              :data="tableData"-->
+<!--              :fields="json_fields"-->
+<!--              :header="title"-->
+<!--              name="图书借阅表格.xls"-->
+<!--          >-->
+<!--            <el-button type="primary" class="el-icon-printer" size="mini"-->
+<!--            >导出Excel</el-button-->
+<!--            >-->
+<!--          </download-excel>-->
+<!--        </el-col>-->
         <el-col :span="2" style="float: right">
           <el-button
               type="success"
