@@ -14,7 +14,7 @@
               <div style="margin-bottom: 5px; text-align: left;"><strong>电子邮件:</strong> {{ user.email }}</div>
               <div style="margin-bottom: 5px; text-align: left;"><strong>科研机构:</strong> {{ user.organization }}</div>
               <div style="margin-bottom: 5px; text-align: left;"><strong>注册时间:</strong> {{ user.createTime }}</div>
-              <div style="margin-bottom: 5px; text-align: left;"><strong>活跃度:</strong> {{ user.userPic }}</div>
+<!--              <div style="margin-bottom: 5px; text-align: left;"><strong>活跃度:</strong> {{ user.userPic }}</div>-->
             </el-col>
             <el-col :span="24" style="display: flex; justify-content: center; margin-top: 20px;">
               <el-button type="primary" @click="edit_user()" style="font-size: 14px; padding: 10px 20px;">修改用户信息</el-button>

@@ -7,11 +7,14 @@
       <el-form-item label="全称">
         <el-input v-model="form.name" disabled></el-input>
       </el-form-item>
-      <el-form-item label="Special Issue">
-        <el-input v-model="form.issue"></el-input>
+      <el-form-item label="简称">
+        <el-input v-model="form.abbreviation"></el-input>
+      </el-form-item>
+      <el-form-item label="Special Issue" >
+        <el-input v-model="form.issue" :disabled="true"></el-input>
       </el-form-item>
       <el-form-item label="截稿日期">
-        <el-date-picker v-model="form.deadline" type="date" placeholder="选择日期"></el-date-picker>
+        <el-date-picker v-model="form.deadline" type="date" placeholder="选择日期" :disabled="true"></el-date-picker>
       </el-form-item>
       <el-form-item label="影响因子">
         <el-input v-model="form.ifactor"></el-input>
@@ -40,6 +43,7 @@ export default {
         deadline: this.$route.query.deadline || '',
         ifactor: this.$route.query.ifactor || '',
         publisher: this.$route.query.publisher || '',
+        abbreviation:"",
       },
     };
   },
@@ -51,9 +55,11 @@ export default {
       console.log(this.form);
       // 在这里处理提交表单逻辑
       const response=axios.put("/api/admin/updateJournal",this.form);
-      console.log("response");
-      console.log(response);
+
       this.$message.success('修改成功');
+
+
+
     },
     resetForm() {
       this.$refs.form.resetFields();

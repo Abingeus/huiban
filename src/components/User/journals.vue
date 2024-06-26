@@ -102,6 +102,7 @@
           ifactor: row.ifactor,
           publisher: row.publisher,
           viewCount: row.viewCount,
+          abbreviation: row.abbreviation,
         }
       }">
           {{ row.name }}

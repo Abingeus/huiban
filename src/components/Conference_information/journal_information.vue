@@ -2,11 +2,13 @@
   <div class="conference-information">
     <h1>{{ name }}</h1>
     <a :href="url" target="_blank" class="conference-link">{{ url }}</a>
+    <p class="conference-detail" v-if="viewCount !== null && viewCount !== undefined">简称: <span class="tag">{{ abbreviation }}</span></p>
     <p class="conference-detail">截稿日期: <span>{{ deadline }}</span></p>
     <p class="conference-detail">Issue: <span>{{ issue }}</span></p>
     <p class="conference-detail">影响因子: <span>{{ ifactor }}</span></p>
     <p class="conference-detail">出版社: <span>{{ publisher }}</span></p>
     <p class="conference-detail" v-if="viewCount !== null && viewCount !== undefined">浏览量: <span class="tag">{{ viewCount }}</span></p>
+
     <div class="conference-ccf">
       <span class="tag">CCF: {{ ccf }}</span>
     </div>
@@ -109,6 +111,7 @@ export default {
       ifactor: this.$route.query.ifactor,
       publisher: this.$route.query.publisher,
       viewCount: this.$route.query.viewCount,
+      abbreviation:this.$route.query.abbreviation,
 
 
     };
@@ -185,6 +188,7 @@ export default {
               deadline: this.$route.query.deadline || '',
               ifactor: this.$route.query.ifactor || '',
               publisher: this.$route.query.publisher || '',
+              abbreviation:"",
             },
 
           }
