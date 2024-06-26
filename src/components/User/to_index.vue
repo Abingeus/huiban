@@ -121,9 +121,9 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="this.queryInfo.pageNum"
+        :current-page="this.queryInfo.currentpage"
         :page-sizes="[1, 2, 3, 4, 5]"
-        :page-size="this.queryInfo.pageSize"
+        :page-size="this.queryInfo.pageNum"
         layout="total, sizes, prev, pager, next, jumper"
         :total="this.queryInfo.total"
       >

@@ -60,7 +60,7 @@
 
     <div class="outer-container">
       <div class="inner-container">
-        会议名字含有 <span class="highlight">{{ this.keyword }}</span> 的期刊列表
+        期刊名字含有 <span class="highlight">{{ this.keyword }}</span> 的期刊列表
       </div>
     </div>
     <el-table
@@ -165,7 +165,7 @@ export default{
     },
     updateCurrentTableData2() {
       const start = (this.queryInfo2.currentpage - 1) * this.queryInfo2.pageNum;
-      const end = Math.min(start + this.queryInfo2.pageNum, this.tableData1.length);
+      const end = Math.min(start + this.queryInfo2.pageNum, this.tableData2.length);
       this.currentTableData2 = this.tableData2.slice(start, end);
       this.loading1 = false;
       console.log("currentTableData1");
@@ -181,22 +181,11 @@ export default{
       this.updateCurrentTableData2();
     },
     async SearchconferenceByKeyword() {
-      // this.loading = true;
       const params = {
         keyword: this.keyword
       };
-      // params.append("keyword",this.keyword);
-      // const paramsString = params.toString();
-      // console.log(paramsString);
-      // const  params= {keyword:this.keyword};
       console.log(params);
       const {data:res } = await axios.get('/api/conference/conferenceSearchByKeyword',{params},
-        // {
-        //   // headers: {
-        //   //   'Content-Type': 'application/json',
-        //   // },
-        //
-        // }
       );
       console.log(res);
       this.tableData1 = [];
@@ -205,26 +194,17 @@ export default{
       this.tableData1 = res.data;
       this.queryInfo1.total=this.tableData1.length;
       this.updateCurrentTableData1();
-
     },
     async SearchcjournalByKeyword(){
       const params = {
         keyword: this.keyword
       };
-      // params.append("keyword",this.keyword);
-      // const paramsString = params.toString();
-      // console.log(paramsString);
-      // const  params= {keyword:this.keyword};
       console.log(params);
       const {data:res } = await axios.get('/api/journal/journalSearchByKeyword',{params},
-          // {
-          //   // headers: {
-          //   //   'Content-Type': 'application/json',
-          //   // },
-          //
-          // }
       );
+      console.log("期刊返回数据");
       console.log(res);
+      console.log(this.tableData2);
 
       this.loading = false;
       this.tableData2 = res.data;
